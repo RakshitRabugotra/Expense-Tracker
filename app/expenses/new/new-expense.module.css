@@ -1,0 +1,49 @@
+/* The body of the page */
+.formContainer {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0px 22px;
+}
+
+/* The expense form */
+.createExpenseForm {
+    width: 370px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin: 24px 0px;
+}
+
+.createExpenseForm h3 {
+    text-align: center;
+    font-size: 32px;
+    margin: 12px 0px;
+}
+
+.createExpenseForm input,
+.createExpenseForm select {
+    width: 100%;
+    margin: 8px 0px;
+    font-size: 18px;
+    padding: 16px 22px;
+    border-radius: 32px;
+    border: none;
+    outline: solid 2px rgba(44, 32, 38, 0.933);
+    line-height: 30px;
+    text-transform: capitalize;
+}
+
+.createExpenseForm button {
+    width: 100%;
+    padding: 16px 22px;
+    border-radius: 32px;
+    font-size: 18px;
+    font-weight: bold;
+    background-color: #282626;
+    outline: solid 2px rgba(44, 32, 38, 0.933);
+    border: none;
+}
+
