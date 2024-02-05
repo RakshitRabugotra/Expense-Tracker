@@ -1,12 +1,15 @@
 import styles from "./page.module.css";
 
 export default function Home() {
+
+  const username = "Rakshit";
+
   return (
     <main className={styles.main}>
 
       <div className={styles.userHeading}>
-        <h1>Hello Rakshit!</h1>
-        <div className={styles.searchIcon}></div>
+        <div>Hello,</div>
+        <h3>{username}!</h3>
       </div>
 
       {/* The box showing the graph */}

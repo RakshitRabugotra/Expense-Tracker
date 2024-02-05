@@ -2,6 +2,8 @@
 // and provide a form to new new expense
 import Link from "next/link";
 import styles from "./expense.module.css";
+// BillIcon
+import { LiaMoneyBillWaveSolid } from "react-icons/lia";
 
 async function getExpenses() {
   const res = await fetch(
@@ -39,13 +41,12 @@ const ExpenseList = ({ expenses }) => {
       </div>
     );
   }
-  
 
   return (
     <div className={styles.expenseList}>
       <h1 className={styles.heading}>Expenses</h1>
       {expenses.map((expense, index) => {
-        return <ExpenseEntry expense={expense} key={index}/>;
+        return <ExpenseEntry expense={expense} key={index} />;
       })}
     </div>
   );
@@ -53,24 +54,30 @@ const ExpenseList = ({ expenses }) => {
 
 // The expense entry component
 const ExpenseEntry = ({ expense }) => {
-    const id = expense.id;
-    const created = new Date(expense?.created);
-    const month = created.toLocaleString('default', {'month': 'short'});
-    const day = created.toLocaleString('default', {'day': '2-digit'});
-    const year = created.toLocaleDateString('default', {'year': '2-digit'});
+  const id = expense.id;
+  const created = new Date(expense?.created);
+  const month = created.toLocaleString("default", { month: "short" });
+  const day = created.toLocaleString("default", { day: "2-digit" });
+  const year = created.toLocaleDateString("default", { year: "2-digit" });
 
   return (
     <Link href={`/expenses/${id}`}>
-        <div className={styles.expenseItem}>
-        {created && <div className={styles.dateContainer}>
-          <h5>{day}</h5>
-          <h6>{month}</h6>
-          <p>'{year}</p>
-        </div>}
-        {expense.name && <h4>{expense.name}</h4>}
-        {expense.category && <h6>{expense.category}</h6>}
-        {expense.expenditure && <p>{expense.expenditure}</p>}
+      <div className={styles.expenseItem}>
+        <div className={styles.expenseIcon}>
+          <LiaMoneyBillWaveSolid />
         </div>
+
+        <div className={styles.expenseInformation}>
+          {expense.name && <h4>{expense.name}</h4>}
+          <div className={styles.dateContainer}>
+            {[day, month, `'${year}`].join(" ")}
+          </div>
+        </div>
+
+        <div className={styles.expenseExpenditure}>
+          {expense.expenditure && <p>{expense.expenditure}</p>}
+        </div>
+      </div>
     </Link>
   );
 };

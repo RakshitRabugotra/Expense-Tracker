@@ -3,16 +3,20 @@
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  padding: 1.5rem;
+  padding: 24px;
   min-height: 100vh;
 }
 
 .navbar {
-  background-color: #333;
+  background-color: var(--dark-green);
   overflow: hidden;
   position: fixed;
   bottom: 0;
   width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
 }
 
 .navbar a {
@@ -20,13 +24,30 @@
   display: block;
   color: #f2f2f2;
   text-align: center;
-  padding: 14px 16px;
+  padding: 8px 12px;
   text-decoration: none;
-  font-size: 20px;
+  font-size: 24px;
+}
+
+.navbar .roundIcon {
+  font-size: 40px;
 }
 
 .userHeading {
-  
+  display: flex;
+  width: 100%;
+  font-size: 48px;
+  flex-direction: column;
+  align-items: left;
+}
+
+.userHeading div {
+  color: var(--off-white);
+}
+
+.userHeading h3 {
+  font-weight: bold;
+  color: var(--olive);
 }
 
 .graphBox {
