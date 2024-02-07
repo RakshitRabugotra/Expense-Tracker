@@ -1,0 +1,22 @@
+/* Heading */
+.heading {
+  width: 100%;
+  text-align: left;
+  color: var(--dark);
+  font-size: 48px;
+  font-weight: bold;
+}
+
+.heading div {
+  width: 100%;
+  color: var(--olive);
+}
+
+/* Graph box */
+.graphBox {
+  min-width: 90vw;
+  min-height: 200px;
+  /* background-color: var(--dark-fade-green); */
+  background: linear-gradient(var(--olive), var(--fade-green));
+  border-radius: 16px;
+}

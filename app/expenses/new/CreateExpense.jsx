@@ -5,6 +5,7 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import styles from "./new-expense.module.css";
+import Heading from "../../(components)/Heading";
 
 
 export default function CreateExpense() {
@@ -50,15 +51,15 @@ export default function CreateExpense() {
       }),
     });
 
+    router.replace("/expenses");
     setName("");
     setCategory(categories[0]);
     setExpenditure(0);
-    router.refresh();
   };
 
   return (
     <form onSubmit={handleSubmit} className={styles.createExpenseForm}>
-      <h3>Add Expense</h3>
+      <Heading text={"Add"} coloredText={"Expense"}/>
       <input
         type="text"
         placeholder="Expense Name"

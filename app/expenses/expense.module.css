@@ -25,8 +25,8 @@
     /* Set the background color to make it distinct */
     background-color: var(--box-white);
     border-radius: 8px;
-    border: solid 1px #ddd;
-    filter: drop-shadow(0px 0px 3px #ddd);
+    border: solid 1px var(--dark-green);
+    box-shadow: 0px 2px 2px var(--dark-green);
 }
 
 .expenseIcon,
@@ -47,11 +47,20 @@
     font-size: 20px;
 }
 
-.dateContainer {
-    color: #757576;
+.categoryContainer {
+    color: var(--inactive);
     text-transform: capitalize;
     font-weight: bold;
     font-size: 12px;
     line-height: 24px;
+}
+
+.dateContainer {
+    color: var(--inactive);
+    font-weight: bold;
+    line-height: 24px;
+    padding: 0px 8px;
+    border-left: solid 8px var(--olive);
+    border-radius: 4px;
 }
 

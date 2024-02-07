@@ -2,7 +2,11 @@
   --off-white: #f9fafb;
   --dark-green: #294B29;
   --olive: #789461;
+  --fade-green: #50623a;
   --light-green: #DBE7C9;
+  --dark: #252525;
+  --dark-fade-green: #183D3D;
+  --inactive: #757576;
 
   --border-radius-8: 8px;
 }
@@ -78,9 +82,10 @@ a {
 /* Loading Page */
 .loadingPage {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 1rem;
+  gap: 32px;
   min-height: 100vh;
   font-size: 24px;
 }
