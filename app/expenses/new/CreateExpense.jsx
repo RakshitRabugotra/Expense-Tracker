@@ -40,14 +40,14 @@ export default function CreateExpense() {
     // Prevent the default behavior
     e.preventDefault();
     
-    await fetch("http://127.0.0.1:8090/api/collections/expenses/records", {
+    await fetch("https://expense-tracker.pockethost.io/api/collections/expenses/records", {
       method: "POST",
       headers: {
         "content-type": "application/json"
       },
       body: JSON.stringify({
         name,
-        category,
+        category: category.length === 0 ? categories[0] : category,
         expenditure,
       }),
     });
