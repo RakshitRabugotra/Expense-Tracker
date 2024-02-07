@@ -74,15 +74,6 @@
   line-height: 24px;
 }
 
-.dateContainer {
-  color: var(--inactive);
-  font-weight: bold;
-  line-height: 24px;
-  padding: 0px 8px;
-  border-left: solid 8px var(--olive);
-  border-radius: 4px;
-}
-
 /* Loader */
 /* HTML: <div class="loader"></div> */
 .loader {
