@@ -14,7 +14,6 @@
 }
 
 .expenseItem {
-    padding: 8px 4px;
     width: 100%;
     /* The display would be flex */
     display: flex;
@@ -25,18 +24,28 @@
     /* Set the background color to make it distinct */
     background-color: var(--box-white);
     border-radius: 8px;
-    border: solid 1px var(--dark-green);
-    box-shadow: 0px 2px 2px var(--dark-green);
+}
+
+.expenseIcon svg {
+    color: var(--off-white);
+    background-color: var(--dark-green);
+    padding: 8px;
+    border-radius: 8px;
 }
 
 .expenseIcon,
 .expenseExpenditure {
     width: 20%;
-    font-size: 32px;
+    font-size: 48px;
     display: flex;
     justify-content: center;
     align-items: center;
 }
+
+.expenseExpenditure {
+    font-size: 24px;
+}
+
 .expenseInformation {
     width: 60%;
 }

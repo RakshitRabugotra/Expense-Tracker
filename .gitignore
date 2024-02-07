@@ -8,6 +8,7 @@
 
 # Database
 pb*
+pocketbase.exe
 
 # testing
 /coverage

@@ -2,14 +2,17 @@
 // and provide a form to new new expense
 import Link from "next/link";
 import styles from "./expense.module.css";
-// BillIcon
+// Icons for the categories
+import { FaCarSide } from "react-icons/fa6";
 import { LiaMoneyBillWaveSolid } from "react-icons/lia";
+import { MdFastfood } from "react-icons/md";
+import { BsEmojiSmileUpsideDownFill } from "react-icons/bs";
 import Heading from "../(components)/Heading";
 
 // Utility functions
 async function getExpenses() {
   const res = await fetch(
-    "http://127.0.0.1:8090/api/collections/expenses/records?page=1&perPage=30",
+    "https://expense-tracker.pockethost.io/api/collections/expenses/records?page=1&perPage=30",
     {
       cache: "no-store",
     }
@@ -33,15 +36,6 @@ function groupBy(list, keyGetter) {
   return map;
 }
 
-// Object mapping function
-function objectMap(obj, fn) {
-  const newObject = {};
-  Object.keys(obj).forEach((key) => {
-    newObject[key] = fn(obj[key]);
-  });
-  return newObject;
-}
-
 // The rendering component
 export default async function ExpensePage() {
   const expenses = await getExpenses();
@@ -54,15 +48,17 @@ export default async function ExpensePage() {
 const ExpenseList = ({ expenses }) => {
   const noExpense = {
     name: "No expenses yet",
-    category: "",
+    category: "null",
     expenditure: null,
   };
 
+  console.log("expenses:\n", expenses);
+
   // If we don't have any expenses
-  if (typeof expenses === "undefined") {
+  if (expenses.length === 0) {
     return (
       <div className={styles.expenseList}>
-        <h1 className={styles.heading}>Expenses</h1>
+        <Heading text={"Your"} coloredText={"Expenses"}/>
         <ExpenseEntry expense={noExpense} />
       </div>
     );
@@ -105,14 +101,29 @@ const ExpenseList = ({ expenses }) => {
 
 // The expense entry component
 const ExpenseEntry = ({ expense }) => {
-  const id = expense.id;
-  const created = new Date(expense?.created);
+  let component = null;
+  
+  switch(expense.category) {
+    case 'transport':
+      component = <FaCarSide/>
+      break;
+    case 'food':
+      component = <MdFastfood/>
+      break;
+    case 'null':
+      component = <BsEmojiSmileUpsideDownFill/>;
+      break;
+    default:
+      component = <LiaMoneyBillWaveSolid/>
+      break;
+  }
 
   return (
-    <Link href={`/expenses/${id}`}>
+    <Link href={`/expenses/${expense.id}`}>
       <div className={styles.expenseItem}>
         <div className={styles.expenseIcon}>
-          <LiaMoneyBillWaveSolid />
+          {/* Show the icon dynamically */}
+          {component}
         </div>
 
         <div className={styles.expenseInformation}>

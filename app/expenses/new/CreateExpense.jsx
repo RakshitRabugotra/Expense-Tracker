@@ -16,7 +16,7 @@ export default function CreateExpense() {
   // Get the categories from the backend
   const getCategories = () => {
     fetch(
-      "http://127.0.0.1:8090/api/collections/categories/records?page=1&perPage=30",
+      "https://expense-tracker.pockethost.io/api/collections/categories/records?page=1&perPage=30",
       { cache: "no-store" })
       .then((res) => res.json())
       .then((data) => {
@@ -39,7 +39,7 @@ export default function CreateExpense() {
     // Prevent the default behavior
     e.preventDefault();
 
-    await fetch("http://127.0.0.1:8090/api/collections/expenses/records", {
+    await fetch("https://expense-tracker.pockethost.io/api/collections/expenses/records", {
       method: "POST",
       headers: {
         "content-type": "application/json"
