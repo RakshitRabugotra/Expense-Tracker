@@ -6,56 +6,53 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import styles from "./new-expense.module.css";
 import Heading from "../../(components)/Heading";
-
+import Loader from "../../(components)/Loader";
+import PocketBase from "pocketbase";
 
 export default function CreateExpense() {
   const router = useRouter();
   // For the valid categories in the system
   const [categories, setCategories] = useState([]);
 
+  // The state variables for particular expense
+  const [name, setName] = useState("");
+  const [category, setCategory] = useState("");
+  const [expenditure, setExpenditure] = useState(0);
+
   // Get the categories from the backend
-  const getCategories = () => {
-    fetch(
-      "https://expense-tracker.pockethost.io/api/collections/categories/records?page=1&perPage=30",
-      { cache: "no-store" })
-      .then((res) => res.json())
-      .then((data) => {
-        const cats = data?.items.map(item => item.name);
-        setCategories(cats);
-      })
-      .catch(error => console.log(error));
+  const getCategories = async() => {
+    const pb = new PocketBase('https://expense-tracker.pockethost.io');
+    // you can also fetch all records at once via getFullList
+    const records = await pb.collection('categories').getFullList({
+      sort: '-created',
+    });
+    setCategories(records.map(record => record.name));
   }
   // Do this once
   useEffect(() => {
    getCategories();
   }, []);
-
-  // The state variables for particular expense
-  const [name, setName] = useState("");
-  const [category, setCategory] = useState(categories[0]);
-  const [expenditure, setExpenditure] = useState(0);
   
   const handleSubmit = async (e) => {
     // Prevent the default behavior
     e.preventDefault();
+    const pb = new PocketBase('https://expense-tracker.pockethost.io');
 
-    await fetch("https://expense-tracker.pockethost.io/api/collections/expenses/records", {
-      method: "POST",
-      headers: {
-        "content-type": "application/json"
-      },
-      body: JSON.stringify({
-        name,
-        category,
-        expenditure,
-      }),
-    });
+    // Create the data
+    const data = {
+      name,
+      "category": category.length === 0 ? categories[0] : category,
+      expenditure,
+    }    
+    const record = await pb.collection('expenses').create(data);
 
     router.replace("/expenses");
     setName("");
     setCategory(categories[0]);
     setExpenditure(0);
   };
+
+  if(categories.length === 0) return <Loader context={"categories"}/>
 
   return (
     <form onSubmit={handleSubmit} className={styles.createExpenseForm}>

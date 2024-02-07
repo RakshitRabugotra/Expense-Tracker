@@ -7,6 +7,7 @@ import { MdLocalGroceryStore } from "react-icons/md";
 import { MdCurrencyRupee } from "react-icons/md";
 import { MdFastfood } from "react-icons/md";
 import { BsEmojiSmileUpsideDownFill } from "react-icons/bs";
+import { FaPenAlt } from "react-icons/fa";
 
 // The expense entry component
 export default function  ExpenseEntry({ expense }) {
@@ -24,6 +25,9 @@ export default function  ExpenseEntry({ expense }) {
       break;
     case "food":
       component = <MdFastfood />;
+      break;
+    case "stationery":
+      component = <FaPenAlt/>;
       break;
     case "null":
       component = <BsEmojiSmileUpsideDownFill />;
