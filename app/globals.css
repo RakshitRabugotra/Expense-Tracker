@@ -9,6 +9,9 @@
   --inactive: #757576;
 
   --border-radius-8: 8px;
+
+  /* The height of the navbar */
+  --navbar-height: 65px;
 }
 
 * {
@@ -27,9 +30,6 @@ body {
   overflow-x: hidden;
   background-color: var(--off-white);
 }
-
-/* body {
-} */
 
 a {
   color: inherit;

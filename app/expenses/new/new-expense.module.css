@@ -1,10 +1,11 @@
 /* The body of the page */
-.formContainer {
+.page {
     width: 100%;
     min-height: 100vh;
     display: flex;
     justify-content: center;
     padding: 24px;
+    margin-bottom: var(--navbar-height);
 }
 
 /* The expense form */
