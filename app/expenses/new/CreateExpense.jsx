@@ -7,7 +7,6 @@ import { useEffect, useState } from "react";
 import styles from "./new-expense.module.css";
 import Heading from "../../(components)/Heading";
 import Loader from "../../(components)/Loader";
-import PocketBase from "pocketbase";
 
 export default function CreateExpense() {
   const router = useRouter();
@@ -20,31 +19,38 @@ export default function CreateExpense() {
   const [expenditure, setExpenditure] = useState(0);
 
   // Get the categories from the backend
-  const getCategories = async() => {
-    const pb = new PocketBase('https://expense-tracker.pockethost.io');
-    // you can also fetch all records at once via getFullList
-    const records = await pb.collection('categories').getFullList({
-      sort: '-created',
-    });
-    setCategories(records.map(record => record.name));
-  }
+  const getCategories = () => {
+    fetch(
+      "https://expense-tracker.pockethost.io/api/collections/categories/records?page=1&perPage=30",
+      { cache: "no-store" }
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        const cats = data?.items.map((item) => item.name);
+        setCategories(cats);
+      })
+      .catch((error) => console.log(error));
+  };
   // Do this once
   useEffect(() => {
-   getCategories();
+    getCategories();
   }, []);
-  
+
   const handleSubmit = async (e) => {
     // Prevent the default behavior
     e.preventDefault();
-    const pb = new PocketBase('https://expense-tracker.pockethost.io');
-
-    // Create the data
-    const data = {
-      name,
-      "category": category.length === 0 ? categories[0] : category,
-      expenditure,
-    }    
-    const record = await pb.collection('expenses').create(data);
+    
+    await fetch("http://127.0.0.1:8090/api/collections/expenses/records", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json"
+      },
+      body: JSON.stringify({
+        name,
+        category,
+        expenditure,
+      }),
+    });
 
     router.replace("/expenses");
     setName("");
@@ -52,18 +58,18 @@ export default function CreateExpense() {
     setExpenditure(0);
   };
 
-  if(categories.length === 0) return <Loader context={"categories"}/>
+  if (categories.length === 0) return <Loader context={"categories"} />;
 
   return (
     <form onSubmit={handleSubmit} className={styles.createExpenseForm}>
-      <Heading text={"Add"} coloredText={"Expense"}/>
+      <Heading text={"Add"} coloredText={"Expense"} />
       <input
         type="text"
         placeholder="Expense Name"
         value={name}
         onChange={(e) => setName(e.target.value)}
       />
-      <select name="category" onChange={e => setCategory(e.target.value)}>
+      <select name="category" onChange={(e) => setCategory(e.target.value)}>
         {categories.map((cat, index) => {
           return (
             <option value={cat} key={index}>

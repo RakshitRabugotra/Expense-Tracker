@@ -3,23 +3,18 @@
 import styles from "./expense.module.css";
 import Heading from "../(components)/Heading";
 import ExpenseEntry from "../(components)/ExpenseEntry";
-import PocketBase from "pocketbase";
 
-export const dynamic = "auto",
-  dynamicParams = true,
-  revalidate = 0,
-  fetchCache = "auto",
-  runtime = "nodejs",
-  preferredRegion = "auto";
 
 // Utility functions
 async function getExpenses() {
-  const pb = new PocketBase("https://expense-tracker.pockethost.io");
-  // fetch a paginated records list
-  const resultList = await pb.collection("expenses").getList(1, 50, {
-    filter: 'created >= "1988-01-01 00:00:00"',
-  });
-  return resultList?.items;
+  const res = await fetch(
+    "https://expense-tracker.pockethost.io/api/collections/expenses/records?page=1&perPage=30",
+    {
+      cache: "no-store",
+    }
+  );
+  const data = await res.json();
+  return data?.items;
 }
 
 // Function to group certain elements in an object by a key
