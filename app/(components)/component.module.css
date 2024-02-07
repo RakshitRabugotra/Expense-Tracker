@@ -20,3 +20,122 @@
   background: linear-gradient(var(--olive), var(--fade-green));
   border-radius: 16px;
 }
+
+/* Expense Item */
+
+.expenseItem {
+  width: 100%;
+  /* The display would be flex */
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 16px;
+  /* Set the background color to make it distinct */
+  background-color: var(--box-white);
+  border-radius: 8px;
+}
+
+.expenseIcon svg {
+  color: var(--off-white);
+  background-color: var(--dark-green);
+  padding: 8px;
+  border-radius: 8px;
+}
+
+.expenseIcon,
+.expenseExpenditure {
+  width: 20%;
+  font-size: 48px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.expenseExpenditure {
+  font-size: 24px;
+}
+
+.expenseInformation {
+  width: 60%;
+}
+.expenseInformation > * {
+  width: 100%;
+}
+.expenseInformation h4 {
+  font-size: 20px;
+}
+
+.categoryContainer {
+  color: var(--inactive);
+  text-transform: capitalize;
+  font-weight: bold;
+  font-size: 12px;
+  line-height: 24px;
+}
+
+.dateContainer {
+  color: var(--inactive);
+  font-weight: bold;
+  line-height: 24px;
+  padding: 0px 8px;
+  border-left: solid 8px var(--olive);
+  border-radius: 4px;
+}
+
+/* Loader */
+/* HTML: <div class="loader"></div> */
+.loader {
+  width: 64px;
+  aspect-ratio: 1;
+  display: grid;
+  border: 6px solid #0000;
+  border-radius: 50%;
+  border-right-color: var(--olive);
+  animation: l15 1s infinite linear;
+}
+.loader::before,
+.loader::after {
+  content: "";
+  grid-area: 1/1;
+  margin: 2px;
+  border: inherit;
+  border-radius: 50%;
+  animation: l15 2s infinite;
+}
+.loader::after {
+  margin: 8px;
+  animation-duration: 3s;
+}
+@keyframes l15 {
+  100% {
+    transform: rotate(1turn);
+  }
+}
+
+/* Loading Page */
+.loadingPage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 32px;
+  min-height: 100vh;
+  font-size: 24px;
+}
+
+.loadingPage h1 {
+  animation: changeColor infinite 3s ease-in-out;
+}
+
+@keyframes changeColor {
+  0% {
+    color: var(--olive);
+  }
+  50% {
+    color: var(--dark-green);
+  }
+  100% {
+    color: var(--olive);
+  }
+}

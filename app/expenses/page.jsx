@@ -1,13 +1,9 @@
 // This page will show all the expenses
 // and provide a form to new new expense
-import Link from "next/link";
 import styles from "./expense.module.css";
-// Icons for the categories
-import { FaCarSide } from "react-icons/fa6";
-import { LiaMoneyBillWaveSolid } from "react-icons/lia";
-import { MdFastfood } from "react-icons/md";
-import { BsEmojiSmileUpsideDownFill } from "react-icons/bs";
 import Heading from "../(components)/Heading";
+import ExpenseEntry from "../(components)/ExpenseEntry";
+
 
 // Utility functions
 async function getExpenses() {
@@ -38,6 +34,7 @@ function groupBy(list, keyGetter) {
 
 // The rendering component
 export default async function ExpensePage() {
+
   const expenses = await getExpenses();
   return (
     <ExpenseList expenses={expenses} />
@@ -51,8 +48,6 @@ const ExpenseList = ({ expenses }) => {
     category: "null",
     expenditure: null,
   };
-
-  console.log("expenses:\n", expenses);
 
   // If we don't have any expenses
   if (expenses.length === 0) {
@@ -99,44 +94,3 @@ const ExpenseList = ({ expenses }) => {
   );
 };
 
-// The expense entry component
-const ExpenseEntry = ({ expense }) => {
-  let component = null;
-  
-  switch(expense.category) {
-    case 'transport':
-      component = <FaCarSide/>
-      break;
-    case 'food':
-      component = <MdFastfood/>
-      break;
-    case 'null':
-      component = <BsEmojiSmileUpsideDownFill/>;
-      break;
-    default:
-      component = <LiaMoneyBillWaveSolid/>
-      break;
-  }
-
-  return (
-    <Link href={`/expenses/${expense.id}`}>
-      <div className={styles.expenseItem}>
-        <div className={styles.expenseIcon}>
-          {/* Show the icon dynamically */}
-          {component}
-        </div>
-
-        <div className={styles.expenseInformation}>
-          {expense.name && <h4>{expense.name}</h4>}
-          {expense.category && <div className={styles.categoryContainer}>
-            {expense.category}
-          </div>}
-        </div>
-
-        <div className={styles.expenseExpenditure}>
-          {expense.expenditure && <p>{expense.expenditure}</p>}
-        </div>
-      </div>
-    </Link>
-  );
-};
