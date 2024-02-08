@@ -165,3 +165,36 @@
     color: var(--olive);
   }
 }
+
+
+/* The expense form */
+.createExpenseForm {
+  width: 370px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.createExpenseForm input,
+.createExpenseForm select {
+  width: 100%;
+  margin: 8px 0px;
+  font-size: 16px;
+  padding: 16px 24px;
+  border-radius: var(--border-radius-8);
+  border: solid 1px #ddd;
+  line-height: 30px;
+  text-transform: capitalize;
+}
+
+.createExpenseForm button {
+  width: 100%;
+  padding: 16px 0px;
+  border-radius: var(--border-radius-8);
+  font-size: 16px;
+  font-weight: bold;
+  color: var(--dark-green);
+  background-color: var(--light-green);
+  border: solid 1px #ddd;
+  filter: drop-shadow(0px 0px 3px var(--light-green));
+}
