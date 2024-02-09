@@ -7,7 +7,7 @@ import { groupBy, arraySum } from "./utils";
 
 const getExpenseToday = async () => {
   // today's date
-  const today = moment().format("YYYY-MM-DD");
+  let today = moment.utc().format("YYYY-MM-DD");
   // Send a fetch request for particular date
   const path = "https://expense-tracker.pockethost.io";
   const params = "/api/collections/expenses/records?page=1&perPage=50";
@@ -29,19 +29,21 @@ export default async function Home() {
   // Group the expenses by their category
   const groupedExpenses = groupBy(expenses, (expense) => expense.category);
 
+  const dailyLimit = 10000/30;
+
   // Create a new object containing these pairs
   const categorizedExpenditure = {};
   groupedExpenses.forEach((expenses, category) => {
-    categorizedExpenditure[category.toString()] = arraySum(expenses, (expense) => expense.expenditure);
+    categorizedExpenditure[category] = arraySum(expenses, (expense) => expense.expenditure);
   });
+
+  console.log(categorizedExpenditure);
 
   return (
     <main className={styles.main}>
       <Heading text={"Hello,"} coloredText={username + "!"} />
-      {/* The box showing the graph */}
-      <GraphBox />
       {/* The canvas to show the expenses for the day */}
-      <ExpensePie categorizedExpenditure={categorizedExpenditure} />
+      <ExpensePie categorizedExpenditure={categorizedExpenditure} dailyLimit={dailyLimit} />
     </main>
   );
 }
