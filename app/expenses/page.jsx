@@ -3,7 +3,7 @@
 import styles from "./expense.module.css";
 import Heading from "../(components)/Heading";
 import ExpenseEntry from "../(components)/ExpenseEntry";
-
+import { groupBy } from "../utils";
 
 // Utility functions
 async function getExpenses() {
@@ -15,21 +15,6 @@ async function getExpenses() {
   );
   const data = await res.json();
   return data?.items;
-}
-
-// Function to group certain elements in an object by a key
-function groupBy(list, keyGetter) {
-  const map = new Map();
-  list.forEach((item) => {
-    const key = keyGetter(item);
-    const collection = map.get(key);
-    if (!collection) {
-      map.set(key, [item]);
-    } else {
-      collection.push(item);
-    }
-  });
-  return map;
 }
 
 // The rendering component
