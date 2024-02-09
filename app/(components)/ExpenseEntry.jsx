@@ -8,32 +8,39 @@ import { MdCurrencyRupee } from "react-icons/md";
 import { MdFastfood } from "react-icons/md";
 import { BsEmojiSmileUpsideDownFill } from "react-icons/bs";
 import { FaPenAlt } from "react-icons/fa";
+import { currencyFormatter } from "../utils";
 
 // The expense entry component
-export default function  ExpenseEntry({ expense }) {
+export default function ExpenseEntry({ expense }) {
   let component = null;
+
+  // Extract the different components of the expenditure
+  const formattedExp = currencyFormatter.format(expense.expenditure);
+  const currencySymbol = formattedExp.charAt(0);
+  const integerComponent = formattedExp.slice(1, -3);
+  const decimalComponent = formattedExp.slice(-3);
 
   switch (expense.category) {
     case "transport":
       component = <FaCarSide />;
       break;
     case "clothes":
-      component = <PiTShirtFill/>;
+      component = <PiTShirtFill />;
       break;
     case "grocery":
-      component = <MdLocalGroceryStore/>;
+      component = <MdLocalGroceryStore />;
       break;
     case "food":
       component = <MdFastfood />;
       break;
     case "stationery":
-      component = <FaPenAlt/>;
+      component = <FaPenAlt />;
       break;
     case "null":
       component = <BsEmojiSmileUpsideDownFill />;
       break;
     default:
-      component = <MdCurrencyRupee/>;
+      component = <MdCurrencyRupee />;
       break;
   }
 
@@ -53,9 +60,15 @@ export default function  ExpenseEntry({ expense }) {
         </div>
 
         <div className={styles.expenseExpenditure}>
-          {expense.expenditure && <p>{expense.expenditure}</p>}
+          {expense.expenditure && (
+            <>
+              <p className={styles.currencySymbol}>{currencySymbol}</p>
+              <p className={styles.currencyWhole}>{integerComponent}</p>
+              <p className={styles.currencyDecimal}>{decimalComponent}</p>
+            </>
+          )}
         </div>
       </div>
     </Link>
   );
-};
+}

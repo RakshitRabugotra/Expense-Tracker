@@ -7,7 +7,7 @@
   font-weight: bold;
 }
 
-.heading div {
+.heading p {
   width: 100%;
   color: var(--olive);
 }
@@ -79,8 +79,18 @@
   align-items: center;
 }
 
-.expenseExpenditure {
+.currencyWhole {
   font-size: 24px;
+}
+.currencySymbol {
+  font-size: 16px;
+  position: relative;
+  top: -0.2em;
+}
+.currencyDecimal {
+  font-size: 12px;
+  position: relative;
+  bottom: -0.2em;
 }
 
 .expenseInformation {
@@ -212,6 +222,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
 }
 
 .pieCircle {
@@ -227,11 +238,42 @@
 
   text-align: center;
   color: var(--light-green);
-  font-size: 24px;
+  font-size: 16px;
   font-weight: bold;
 
   display: flex;
   justify-content: center;
   align-items: center;
+  gap: 8px;
+  flex-direction: column;
 }
 
+.pieCircle h4 {
+  font-size: 32px;
+}
+
+.pieLegends {
+  width: 100%;
+  background-color: var(--fade-green);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.legendPair {
+  width: 100%;
+  flex-grow: 1;
+  padding: 8px;
+}
+
+.legendColor {
+  width: 16px;
+  height: 16px;
+  border-radius: 8px;
+}
+
+.legendName {
+  font-size: 16px;
+  color: var(--off-white);
+}

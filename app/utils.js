@@ -1,3 +1,9 @@
+// Currency formatter
+export const currencyFormatter = new Intl.NumberFormat('en-IN', {
+  style: 'currency',
+  currency: 'INR'
+});
+
 // Function to group certain elements in an listect by a key
 export function groupBy(list, keyGetter) {
   const map = new Map();
@@ -15,7 +21,9 @@ export function groupBy(list, keyGetter) {
 
 export function arraySum(list, keyGetter = null) {
   // Check if we're given some key
-  const isKeyDefined = typeof keyGetter !== "undefined";
+  if (typeof keyGetter === "undefined") {
+    keyGetter = (item) => item;
+  }
 
   // Base case: length is 0
   if (list.length === 0) {
@@ -23,12 +31,12 @@ export function arraySum(list, keyGetter = null) {
   }
   // Base case: length is 1
   if (list.length === 1) {
-    return isKeyDefined ? keyGetter(list[0]) : list[0];
+    return keyGetter(list[0]);
   }
   // Else do this the old way
-  return list.reduce((prevValue, currentValue) => {
-    return isKeyDefined
-      ? keyGetter(prevValue) + keyGetter(currentValue)
-      : prevValue + currentValue;
+  let total = 0;
+  list.forEach((value) => {
+    total += keyGetter(value);
   });
+  return total;
 }
