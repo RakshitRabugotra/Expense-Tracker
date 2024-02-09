@@ -1,4 +1,4 @@
-import styles from "./component.module.css";
+import styles from "./expense.module.css";
 import Link from "next/link";
 // Icons for the categories
 import { FaCarSide } from "react-icons/fa6";

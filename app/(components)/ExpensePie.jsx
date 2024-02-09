@@ -2,10 +2,13 @@
 import { Chart as ChartJS, ArcElement, Tooltip } from "chart.js";
 import { Pie } from "react-chartjs-2";
 import { useEffect, useState } from "react";
-import styles from "./component.module.css";
+import styles from "./expense-pie.module.css";
 import { currencyFormatter } from "../utils";
 
 ChartJS.register(ArcElement, Tooltip);
+ChartJS.defaults.backgroundColor = '#9BD0F5';
+ChartJS.defaults.borderColor = '#36A2EB';
+ChartJS.defaults.color = '#000';
 
 const colors = [
   "#fe2e55",
@@ -60,7 +63,7 @@ export default function ExpensePie({ categorizedExpenditure, dailyLimit }) {
   console.log(colorMap);
 
   return (
-    <div>
+    <div className={styles.pieComponent}>
       <h3>Today's Expense</h3>
 
       <div className={styles.pieChart}>

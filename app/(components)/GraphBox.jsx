@@ -1,4 +1,4 @@
-import styles from "./component.module.css";
+import styles from "./graph-box.module.css";
 
 // Utility function to convert month name to month number
 function getMonthNumberFromName(monthName) {

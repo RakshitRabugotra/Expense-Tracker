@@ -1,4 +1,4 @@
-import styles from "./component.module.css";
+import styles from "./heading.module.css";
 
 export default function Heading({ text, coloredText}) {
 

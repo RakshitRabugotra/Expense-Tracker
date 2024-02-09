@@ -1,0 +1,13 @@
+/* Heading */
+.heading {
+  width: 100%;
+  text-align: left;
+  color: var(--dark);
+  font-size: 48px;
+  font-weight: bold;
+}
+
+.heading p {
+  width: 100%;
+  color: var(--olive);
+}

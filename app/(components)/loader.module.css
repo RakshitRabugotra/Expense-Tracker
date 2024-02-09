@@ -1,0 +1,64 @@
+/* Loader */
+/* HTML: <div class="loader"></div> */
+
+.loader {
+  width: 64px;
+  aspect-ratio: 1;
+  display: grid;
+  border: 6px solid #0000;
+  border-radius: 50%;
+  border-right-color: var(--olive);
+  animation: l15 1s infinite linear;
+}
+.loader::before,
+.loader::after {
+  content: "";
+  grid-area: 1/1;
+  margin: 2px;
+  border: inherit;
+  border-radius: 50%;
+  animation: l15 2s infinite;
+}
+.loader::after {
+  margin: 8px;
+  animation-duration: 3s;
+}
+@keyframes l15 {
+  100% {
+    transform: rotate(1turn);
+  }
+}
+
+/* Loading Page */
+.loadingPage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 32px;
+  font-size: 24px;
+  min-height: 100vh;
+  margin-bottom: var(--navbar-height);
+}
+
+.loadingPage h1 {
+  animation: changeColor infinite 3s ease-in-out;
+}
+
+.loadingPage h1 span {
+  color: var(--olive);
+  font-size: 16px;
+  text-transform: capitalize;
+}
+
+@keyframes changeColor {
+  0% {
+    color: var(--olive);
+  }
+  50% {
+    color: var(--dark-green);
+  }
+  100% {
+    color: var(--olive);
+  }
+}

@@ -4,7 +4,7 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import styles from "./component.module.css";
+import styles from "./expense.module.css";
 import Heading from "./Heading";
 import Loader from "./Loader";
 

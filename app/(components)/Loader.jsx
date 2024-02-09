@@ -1,4 +1,4 @@
-import styles from "./component.module.css";
+import styles from "./loader.module.css";
 
 export default function Loader({ context }) {
   return (

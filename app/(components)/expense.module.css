@@ -1,0 +1,99 @@
+/* The expense form */
+.createExpenseForm {
+  width: 370px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.createExpenseForm input,
+.createExpenseForm select {
+  width: 100%;
+  margin: 8px 0px;
+  font-size: 16px;
+  padding: 16px 24px;
+  border-radius: var(--border-radius-8);
+  border: solid 1px #ddd;
+  line-height: 30px;
+  text-transform: capitalize;
+}
+
+.createExpenseForm button {
+  width: 100%;
+  padding: 16px 0px;
+  border-radius: var(--border-radius-8);
+  font-size: 16px;
+  font-weight: bold;
+  color: var(--dark-green);
+  background-color: var(--light-green);
+  border: solid 1px #ddd;
+  filter: drop-shadow(0px 0px 3px var(--light-green));
+}
+
+.createExpenseForm fieldset {
+  border: none;
+  padding: 4px;
+  line-height: 24px;
+}
+
+/* Expense Item */
+.expenseItem {
+  width: 100%;
+  /* The display would be flex */
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 16px;
+  /* Set the background color to make it distinct */
+  background-color: var(--box-white);
+  border-radius: 8px;
+}
+
+.expenseIcon svg {
+  color: var(--off-white);
+  background-color: var(--dark-green);
+  padding: 8px;
+  border-radius: 8px;
+}
+
+.expenseIcon,
+.expenseExpenditure {
+  width: 20%;
+  font-size: 48px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.currencyWhole {
+  font-size: 24px;
+}
+.currencySymbol {
+  font-size: 16px;
+  position: relative;
+  top: -0.2em;
+}
+.currencyDecimal {
+  font-size: 12px;
+  position: relative;
+  bottom: -0.2em;
+}
+
+.expenseInformation {
+  width: 60%;
+}
+.expenseInformation > * {
+  width: 100%;
+}
+.expenseInformation h4 {
+  font-size: 20px;
+}
+
+.categoryContainer {
+  color: var(--inactive);
+  text-transform: capitalize;
+  font-weight: bold;
+  font-size: 12px;
+  line-height: 24px;
+}
