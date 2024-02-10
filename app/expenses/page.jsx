@@ -4,6 +4,7 @@ import styles from "./expense.module.css";
 import Heading from "../(components)/Heading";
 import ExpenseEntry from "../(components)/ExpenseEntry";
 import { groupBy } from "../utils";
+import moment from "moment";
 
 // Utility functions
 async function getExpenses() {
@@ -43,11 +44,10 @@ const ExpenseList = ({ expenses }) => {
 
   // Group expenses by their dates (not their exact times)
   const groupedExpenses = groupBy(expenses, (expense) => {
-    const dateObj = new Date(expense.created);
+    const dateObj = moment.utc(expense.created).toDate();
     const month = dateObj.toLocaleString("default", { month: "short" });
     const day = dateObj.toLocaleString("default", { day: "2-digit" });
     const year = dateObj.toLocaleDateString("default", { year: "2-digit" });
-
     return [day, month, "'" + year].join(" ");
   });
 
@@ -68,9 +68,11 @@ const ExpenseList = ({ expenses }) => {
 
   // Else, return the whole list
   return (
-    <div className={styles.expenseList}>
+    <div className={styles.expensePage}>
       <Heading text={"Your"} coloredText={"Expenses"} />
-      {expenseList}
+      <div className={styles.expenseList}>
+        {expenseList}
+      </div>
     </div>
   );
 };

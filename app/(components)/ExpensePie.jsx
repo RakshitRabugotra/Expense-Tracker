@@ -6,9 +6,6 @@ import styles from "./expense-pie.module.css";
 import { currencyFormatter } from "../utils";
 
 ChartJS.register(ArcElement, Tooltip);
-ChartJS.defaults.backgroundColor = '#9BD0F5';
-ChartJS.defaults.borderColor = '#36A2EB';
-ChartJS.defaults.color = '#000';
 
 const colors = [
   "#fe2e55",
@@ -22,6 +19,11 @@ const colors = [
 const options = {
   plugins: {},
   events: [],
+  elements: {
+    arc: {
+      borderWidth: 0,
+    }
+  }
 };
 
 export default function ExpensePie({ categorizedExpenditure, dailyLimit }) {

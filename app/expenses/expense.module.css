@@ -7,15 +7,21 @@
   margin-bottom: var(--navbar-height);
 }
 
-.expenseList {
-  width: 100%;
-  margin: 0;
+.expensePage {
   display: flex;
   flex-direction: column;
   padding: 24px;
-  gap: 16px;
+  gap: 24px;
   min-height: 100vh;
   margin-bottom: var(--navbar-height);
+}
+
+.expenseList {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 24px 0px;
+  gap: 24px;
 }
 
 .expenseList h1 {

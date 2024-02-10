@@ -1,13 +1,20 @@
 /* The pie chat */
 .pieComponent {
   display: flex;
+  justify-content: center;
+  align-items: center;
   flex-direction: column;
   gap: 16px;
+  padding: 24px;
+  background-color: var(--dark);
+  border-radius: 16px;
+  box-shadow: 4px 4px 0px var(--fade-green);
 }
 
 .pieComponent h3 {
   font-size: 24px;
   text-align: center;
+  color: var(--pale-green);
   background: radial-gradient(var(--));
 }
 
@@ -48,8 +55,7 @@
 }
 
 .pieLegends {
-  width: 100%;
-  background-color: var(--fade-green);
+  width: 50%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -58,17 +64,21 @@
 
 .legendPair {
   width: 100%;
-  flex-grow: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 16px;
   padding: 8px;
 }
 
 .legendColor {
-  width: 16px;
-  height: 16px;
+  width: 24px;
+  height: 24px;
   border-radius: 8px;
 }
 
 .legendName {
   font-size: 16px;
+  text-transform: capitalize;
   color: var(--off-white);
 }
