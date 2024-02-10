@@ -66,7 +66,7 @@ export default function ExpensePie({ categorizedExpenditure, dailyLimit }) {
 
   return (
     <div className={styles.pieComponent}>
-      <h3>Today's Expense</h3>
+      <h3>{"Today\'s Expense"}</h3>
 
       <div className={styles.pieChart}>
         {typeof data?.labels !== "undefined" && (
