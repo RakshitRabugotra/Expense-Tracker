@@ -1,6 +1,5 @@
 import styles from "./page.module.css";
 import Heading from "./(components)/Heading";
-import GraphBox from "./(components)/GraphBox";
 import ExpensePie from "./(components)/ExpensePie";
 import moment from "moment";
 import { groupBy, arraySum } from "./utils";

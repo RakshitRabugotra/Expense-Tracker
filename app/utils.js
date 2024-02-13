@@ -19,7 +19,7 @@ export function groupBy(list, keyGetter) {
   return map;
 }
 
-export function arraySum(list, keyGetter = null) {
+export function arraySum(list, keyGetter) {
   // Check if we're given some key
   if (typeof keyGetter === "undefined") {
     keyGetter = (item) => item;

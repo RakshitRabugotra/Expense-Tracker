@@ -55,7 +55,7 @@
 }
 
 .pieLegends {
-  width: 50%;
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -69,6 +69,9 @@
   justify-content: flex-start;
   gap: 16px;
   padding: 8px;
+  color: var(--off-white);
+  text-transform: capitalize;
+  font-size: 16px;
 }
 
 .legendColor {
@@ -78,7 +81,14 @@
 }
 
 .legendName {
+  flex-grow: 1;
+}
+
+.legendPercentage {
   font-size: 16px;
-  text-transform: capitalize;
-  color: var(--off-white);
+  font-weight: bold;
+}
+
+.legendPercentage span {
+  font-size: 12px;
 }

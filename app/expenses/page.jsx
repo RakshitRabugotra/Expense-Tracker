@@ -8,8 +8,13 @@ import moment from "moment";
 
 // Utility functions
 async function getExpenses() {
+
+  const path = "https://expense-tracker.pockethost.io";
+  const params = "/api/collections/expenses/records?page=1&perPage=30";
+  const sort = "&sort=-created,id";
+
   const res = await fetch(
-    "https://expense-tracker.pockethost.io/api/collections/expenses/records?page=1&perPage=30",
+    path+params+sort,
     {
       cache: "no-store",
     }

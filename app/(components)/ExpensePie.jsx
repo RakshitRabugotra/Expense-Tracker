@@ -3,7 +3,7 @@ import { Chart as ChartJS, ArcElement, Tooltip } from "chart.js";
 import { Pie } from "react-chartjs-2";
 import { useEffect, useState } from "react";
 import styles from "./expense-pie.module.css";
-import { currencyFormatter } from "../utils";
+import { arraySum, currencyFormatter } from "../utils";
 
 ChartJS.register(ArcElement, Tooltip);
 
@@ -22,8 +22,8 @@ const options = {
   elements: {
     arc: {
       borderWidth: 0,
-    }
-  }
+    },
+  },
 };
 
 export default function ExpensePie({ categorizedExpenditure, dailyLimit }) {
@@ -36,6 +36,9 @@ export default function ExpensePie({ categorizedExpenditure, dailyLimit }) {
     // Get the keys and values separately
     const keys = Object.keys(categorizedExpenditure);
     const values = Object.values(categorizedExpenditure);
+    // Total of this expenditure
+    const totalExpenditure = arraySum(values);
+
     // Check if the user didn't make any expense (expenditure is empty)
     const isEmpty = Object.keys(categorizedExpenditure).length === 0;
     // Set the data
@@ -57,7 +60,7 @@ export default function ExpensePie({ categorizedExpenditure, dailyLimit }) {
     // Set the new color map
     const tempMap = new Map();
     for (let i = 0; i < Math.min(keys.length, colors.length); i++) {
-      tempMap.set(keys[i], colors[i]);
+      tempMap.set(keys[i], [colors[i], values[i] / totalExpenditure]);
     }
     setColorMap(tempMap);
   }, [categorizedExpenditure]);
@@ -66,7 +69,7 @@ export default function ExpensePie({ categorizedExpenditure, dailyLimit }) {
 
   return (
     <div className={styles.pieComponent}>
-      <h3>{"Today\'s Expense"}</h3>
+      <h3>{"Today's Expense"}</h3>
 
       <div className={styles.pieChart}>
         {typeof data?.labels !== "undefined" && (
@@ -87,16 +90,24 @@ export default function ExpensePie({ categorizedExpenditure, dailyLimit }) {
       </div>
       {colorMap.size !== 0 && (
         <div className={styles.pieLegends}>
-          {Array.from(colorMap.entries()).map((pair, index) => {
+          {Array.from(colorMap).map((pair, index) => {
             // The first item in the pair is label name,
             // The second item in the pair is the label color
+            const [color, expenseRatio] = pair[1];
+            const legendName = pair[0];
             return (
               <div className={styles.legendPair} key={index}>
                 <div
                   className={styles.legendColor}
-                  style={{ backgroundColor: pair[1] }}
+                  style={{ backgroundColor: color }}
                 ></div>
-                <div className={styles.legendName}>{pair[0]}</div>
+                <div className={styles.legendName}>{legendName}</div>
+                <div
+                  className={styles.legendPercentage}
+                  style={{ color: color }}
+                >
+                  {(expenseRatio * 100).toFixed(2)}<span>{"%"}</span>
+                </div>
               </div>
             );
           })}

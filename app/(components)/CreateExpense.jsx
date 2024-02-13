@@ -8,12 +8,12 @@ import styles from "./expense.module.css";
 import Heading from "./Heading";
 import Loader from "./Loader";
 
-
-
 export default function CreateExpense({ patch, expenseID }) {
   const router = useRouter();
   // For the valid categories in the system
   const [categories, setCategories] = useState([]);
+
+  const [isLoading, setLoading] = useState(false);
 
   // Fetch the expense itself
   const [expense, setExpense] = useState(null);
@@ -38,20 +38,23 @@ export default function CreateExpense({ patch, expenseID }) {
   };
 
   const getExpense = () => {
-    fetch(`https://expense-tracker.pockethost.io/api/collections/expenses/records/${expenseID}`, {next: {revalidate: 10}})
-    .then(response => response.json())
-    .then(data => setExpense(data));
-  }
+    fetch(
+      `https://expense-tracker.pockethost.io/api/collections/expenses/records/${expenseID}`,
+      { next: { revalidate: 10 } }
+    )
+      .then((response) => response.json())
+      .then((data) => setExpense(data));
+  };
 
   // Do this once
   useEffect(() => {
     getCategories();
     // If we're doing an update (PATCH), fetch the expense
-    if(patch) {
+    if (patch) {
       getExpense();
     }
   }, []);
-  
+
   // Update the name, category and expenditure
   // whenever the expense updates
   useEffect(() => {
@@ -64,6 +67,7 @@ export default function CreateExpense({ patch, expenseID }) {
   const handleSubmit = async (e) => {
     // Prevent the default behavior
     e.preventDefault();
+    setLoading(true);
 
     let path = "";
     let method = "";
@@ -72,7 +76,8 @@ export default function CreateExpense({ patch, expenseID }) {
       path = `https://expense-tracker.pockethost.io/api/collections/expenses/records/${expenseID}`;
       method = "PATCH";
     } else {
-      path = "https://expense-tracker.pockethost.io/api/collections/expenses/records";
+      path =
+        "https://expense-tracker.pockethost.io/api/collections/expenses/records";
       method = "POST";
     }
 
@@ -88,14 +93,15 @@ export default function CreateExpense({ patch, expenseID }) {
         expenditure,
       }),
     });
-
+    setLoading(false);
     router.replace("/expenses");
     setName("");
     setCategory(categories[0]);
     setExpenditure(0);
   };
 
-  if (patch && typeof expense?.id === "undefined") return <Loader context={"update"} />;
+  if (patch && typeof expense?.id === "undefined")
+    return <Loader context={"update"} />;
   if (categories.length === 0) return <Loader context={"categories"} />;
 
   return (
@@ -124,7 +130,11 @@ export default function CreateExpense({ patch, expenseID }) {
         onChange={(e) => setExpenditure(e.target.value)}
       />
 
-      <button type="submit">{(patch ? "Update" : "Add") + " Expense"}</button>
+      {isLoading ? (
+        <div className={styles.loading}>Processing...</div>
+      ) : (
+        <button type="submit">{(patch ? "Update" : "Add") + " Expense"}</button>
+      )}
     </form>
   );
 }
