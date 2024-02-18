@@ -11,8 +11,6 @@ import { MdAccountCircle } from "react-icons/md";
 import { IoStatsChart } from "react-icons/io5";
 
 
-const inter = Inter({ subsets: ["latin"] });
-
 export const metadata = {
   title: "Expense Tracker",
   description: "An app to track all your expenses",
@@ -21,16 +19,16 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body>
         {children}
 
         {/* The navbar */}
         <nav className={styles.navbar}>
-          <Link href="/"><IoIosHome/></Link>
-          <Link href="/expenses"><IoReceiptSharp/></Link>
-          <Link href="/expenses/new" className={styles.roundIcon}><IoMdAddCircle/></Link>
-          <Link href="/stats"><IoStatsChart/></Link>
-          <Link href="/profile"><MdAccountCircle/></Link>
+          <Link className={styles.link} href="/"><IoIosHome/></Link>
+          <Link className={styles.link} href="/expenses"><IoReceiptSharp/></Link>
+          <Link className={`${styles.link} ${styles.bigIcon}`} href="/expenses/new"><IoMdAddCircle/></Link>
+          <Link className={styles.link} href="/stats"><IoStatsChart/></Link>
+          <Link className={styles.link} href="/profile"><MdAccountCircle/></Link>
         </nav>
       </body>
     </html>

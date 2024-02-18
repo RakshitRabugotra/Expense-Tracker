@@ -89,17 +89,23 @@ export default function CreateExpense({ patch, expenseID }) {
       },
       body: JSON.stringify({
         name,
-        category: category.length === 0 ? categories[0] : category,
+        category:
+          typeof category === "undefined" || category.length === 0
+            ? categories[0]
+            : category,
         expenditure,
       }),
     });
+    // Change the loading state and redirect to expenses
     setLoading(false);
     router.replace("/expenses");
+    // Reset the state
     setName("");
     setCategory(categories[0]);
     setExpenditure(0);
   };
 
+  // Check if we should update the state to loading?
   if (patch && typeof expense?.id === "undefined")
     return <Loader context={"update"} />;
   if (categories.length === 0) return <Loader context={"categories"} />;
@@ -129,12 +135,7 @@ export default function CreateExpense({ patch, expenseID }) {
         value={expenditure}
         onChange={(e) => setExpenditure(e.target.value)}
       />
-
-      {isLoading ? (
-        <div className={styles.loading}>Processing...</div>
-      ) : (
-        <button type="submit">{(patch ? "Update" : "Add") + " Expense"}</button>
-      )}
+      <button type="submit" disabled={isLoading}>{(patch ? "Update" : "Add") + " Expense"}</button>
     </form>
   );
 }

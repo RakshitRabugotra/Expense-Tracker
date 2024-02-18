@@ -2,10 +2,13 @@ import styles from "./page.module.css";
 import Heading from "./(components)/Heading";
 import ExpensePie from "./(components)/ExpensePie";
 import moment from "moment";
+import LoginPage from "./login/page";
 import { groupBy, arraySum } from "./utils";
 
 const getExpenseToday = async () => {
-  // today's date
+  // Today's date
+  // let today = new Date();
+
   let today = moment.utc().format("YYYY-MM-DD");
   // Send a fetch request for particular date
   const path = "https://expense-tracker.pockethost.io";
@@ -36,7 +39,9 @@ export default async function Home() {
     categorizedExpenditure[category] = arraySum(expenses, (expense) => expense.expenditure);
   });
 
-  console.log(categorizedExpenditure);
+  // if(true) {
+  //   return <LoginPage/>
+  // }
 
   return (
     <main className={styles.main}>

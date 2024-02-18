@@ -1,0 +1,8 @@
+
+.page {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    padding: 24px;
+    margin-bottom: var(--navbar-height);
+}
