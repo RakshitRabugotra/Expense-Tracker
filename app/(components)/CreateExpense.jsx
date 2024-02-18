@@ -113,12 +113,18 @@ export default function CreateExpense({ patch, expenseID }) {
   return (
     <form onSubmit={handleSubmit} className={styles.createExpenseForm}>
       <Heading text={patch ? "Update" : "Add"} coloredText={"Expense"} />
-      <input
-        type="text"
-        placeholder="Expense Name"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-      />
+
+      <label htmlFor="expense-name">
+        <input
+          type="text"
+          placeholder="Expense Name"
+          value={name}
+          name="expense-name"
+          onChange={(e) => setName(e.target.value)}
+        />
+        <span>Expense Name</span>
+      </label>
+
       <select name="category" onChange={(e) => setCategory(e.target.value)}>
         {categories.map((cat, index) => {
           return (
@@ -129,13 +135,18 @@ export default function CreateExpense({ patch, expenseID }) {
         })}
       </select>
 
-      <input
-        type="number"
-        placeholder="Expenditure"
-        value={expenditure}
-        onChange={(e) => setExpenditure(e.target.value)}
-      />
-      <button type="submit" disabled={isLoading}>{(patch ? "Update" : "Add") + " Expense"}</button>
+      <label htmlFor="expenditure">
+        <input
+          type="number"
+          placeholder="Expenditure"
+          value={expenditure}
+          onChange={(e) => setExpenditure(e.target.value)}
+        />
+        <span>Expenditure</span>
+      </label>
+      <button type="submit" disabled={isLoading}>
+        {(patch ? "Update" : "Add") + " Expense"}
+      </button>
     </form>
   );
 }

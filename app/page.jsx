@@ -2,7 +2,6 @@ import styles from "./page.module.css";
 import Heading from "./(components)/Heading";
 import ExpensePie from "./(components)/ExpensePie";
 import moment from "moment";
-import LoginPage from "./login/page";
 import { groupBy, arraySum } from "./utils";
 
 const getExpenseToday = async () => {
@@ -38,10 +37,6 @@ export default async function Home() {
   groupedExpenses.forEach((expenses, category) => {
     categorizedExpenditure[category] = arraySum(expenses, (expense) => expense.expenditure);
   });
-
-  // if(true) {
-  //   return <LoginPage/>
-  // }
 
   return (
     <main className={styles.main}>
