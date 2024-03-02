@@ -51,7 +51,7 @@ export default function CreateExpense({ patch, expenseID, userID }) {
       (() => {
         fetch(
           process.env.SERVER + `/api/collections/expenses/records/${expenseID}`,
-          { next: { revalidate: 10 } }
+          { next: { revalidate: process.env.REVALIDATE_EXPENSE_SECONDS } }
         )
           .then((response) => response.json())
           .then((data) => setExpense(data));
