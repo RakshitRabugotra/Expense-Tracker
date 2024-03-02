@@ -3,18 +3,19 @@
 import styles from "./expense.module.css";
 import Heading from "../(components)/Heading";
 import ExpenseEntry from "../(components)/ExpenseEntry";
-import { groupBy } from "../utils";
+import { groupBy } from "../(lib)/utils";
+import { getUser } from "../(lib)/auth";
+import { cookies } from "next/headers";
 import moment from "moment";
 
 // Utility functions
-async function getExpenses() {
-
-  const path = "https://expense-tracker.pockethost.io";
+async function getExpenses(userID) {
   const params = "/api/collections/expenses/records?page=1&perPage=30";
   const sort = "&sort=-created,id";
+  const filter = `&filter=(user_id='${userID}')`;
 
   const res = await fetch(
-    path+params+sort,
+    process.env.SERVER + params + filter + sort,
     {
       cache: "no-store",
     }
@@ -25,13 +26,16 @@ async function getExpenses() {
 
 // The rendering component
 export default async function ExpensePage() {
-  const expenses = await getExpenses();
+  const session = cookies().get("session")?.value;
+  const {record, token} = await getUser(session);
+  const expenses = await getExpenses(record.id);
   return <ExpenseList expenses={expenses} />;
 }
 
 // The expense list component
 const ExpenseList = ({ expenses }) => {
   const noExpense = {
+    id: "",
     name: "No expenses yet",
     category: "null",
     expenditure: null,
@@ -40,9 +44,11 @@ const ExpenseList = ({ expenses }) => {
   // If we don't have any expenses
   if (expenses.length === 0) {
     return (
-      <div className={styles.expenseList}>
+      <div className={styles.expensePage}>
         <Heading text={"Your"} coloredText={"Expenses"} />
-        <ExpenseEntry expense={noExpense} />
+        <div className={styles.expenseList}>
+          <ExpenseEntry expense={noExpense} isLink={false}/>
+        </div>
       </div>
     );
   }

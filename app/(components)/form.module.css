@@ -1,0 +1,51 @@
+.customForm {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.customForm label {
+  position: relative;
+}
+.customForm input,
+.customForm select {
+  width: 100%;
+  margin: 8px 0px;
+  font-size: 16px;
+  padding: 16px 24px;
+  border-radius: var(--border-radius-8);
+  border: solid 1px #ddd;
+  line-height: 30px;
+}
+.customForm select {
+  text-transform: capitalize;
+}
+.customForm input::placeholder {
+  opacity: 0;
+}
+.customForm span {
+  position: absolute;
+  top: 0;
+  left: 24px;
+  text-transform: capitalize;
+  padding: 0px 8px;
+  transform: translateY(32px);
+  font-size: 16px;
+  transition-duration: 300ms;
+}
+
+.customForm button:disabled {
+  color: var(--off-white);
+  background-color: var(--dark);
+  filter: drop-shadow(0px 0px 3px var(--dark));
+}
+
+/* Animation */
+.customForm label:focus-within > span,
+.customForm input:not(:placeholder-shown) + span {
+  color: var(--olive);
+  transform: translateY(0px);
+  z-index: 1;
+  background-color: var(--off-white);
+}

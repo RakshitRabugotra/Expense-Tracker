@@ -8,10 +8,10 @@ import { MdCurrencyRupee } from "react-icons/md";
 import { MdFastfood } from "react-icons/md";
 import { BsEmojiSmileUpsideDownFill } from "react-icons/bs";
 import { FaPenAlt } from "react-icons/fa";
-import { currencyFormatter } from "../utils";
+import { currencyFormatter } from "../(lib)/utils";
 
 // The expense entry component
-export default function ExpenseEntry({ expense }) {
+export default function ExpenseEntry({ expense, isLink }) {
   let component = null;
 
   // Extract the different components of the expenditure
@@ -45,7 +45,7 @@ export default function ExpenseEntry({ expense }) {
   }
 
   return (
-    <Link href={`/expenses/${expense.id}`}>
+    <Link href={isLink ? `/expenses/${expense.id}` : '#'}>
       <div className={styles.expenseItem}>
         <div className={styles.expenseIcon}>
           {/* Show the icon dynamically */}

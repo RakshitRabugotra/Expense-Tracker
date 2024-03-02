@@ -9,10 +9,10 @@ function getMonthNumberFromName(monthName) {
 // Get the total expenses for a particular month
 const getMonthlyExpenses = async({year, monthStart, monthEnd}) => {
   // Set the path and filter for the month
-  const path = "https://expense-tracker.pockethost.io/api/collections/expenses/records?page=1&perPage=30";
+  const path = "/api/collections/expenses/records?page=1&perPage=30";
   const filter = `&filter=(created<'${year}-${monthStart}-01'&&created >='${year}-${monthEnd}-01')`;
   // Send the fetch request
-  console.log(path + filter);
+  console.log(process.env.SERVER + path + filter);
   const res = await fetch(path + filter, {
     cache: "no-store"
   });
@@ -51,7 +51,10 @@ export default async function GraphBox() {
 
   const monthTotals = new Map();
 
-  let monthlyExpenses = [];
+  // const monthlyExpenses = await getMonthlyExpenses({
+  //   year: today.getFullYear(),
+  //   monthStart: getMonthNumberFromName(month)
+  // })
 
   // previousMonths.forEach(async(month) => {
   //   Promise.resolve(getMonthlyExpenses({
@@ -72,9 +75,10 @@ export default async function GraphBox() {
     <div className={styles.graphBox}>
       {previousMonths.map((month, index) => {
         // const height = (100*monthTotal)/monthlyLimit;
+        const height = 100;
         return (
           <div className={styles.month} key={index}>
-            <div className={styles.monthBar} /*style={{height: `${Math.round(height)}%`}}*/></div>
+            <div className={styles.monthBar} style={{height: `${Math.round(height)}%`}}></div>
             <p>{month}</p>
           </div>
         );

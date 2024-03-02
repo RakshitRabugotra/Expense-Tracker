@@ -10,6 +10,7 @@
 }
 
 .navbar {
+  z-index: 9;
   background-color: var(--dark-green);
   overflow: hidden;
   position: fixed;
@@ -34,7 +35,7 @@
 }
 
 .link {
-  transition: all 200ms ease;
+  transition: all 200ms cubic-bezier(0.18, 0.89, 0.32, 1.28)
 }
 
 .bigIcon {

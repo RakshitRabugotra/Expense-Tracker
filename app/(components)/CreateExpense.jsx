@@ -4,11 +4,11 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import styles from "./expense.module.css";
+import styles from "./form.module.css";
 import Heading from "./Heading";
 import Loader from "./Loader";
 
-export default function CreateExpense({ patch, expenseID }) {
+export default function CreateExpense({ patch, expenseID, userID }) {
   const router = useRouter();
   // For the valid categories in the system
   const [categories, setCategories] = useState([]);
@@ -23,37 +23,41 @@ export default function CreateExpense({ patch, expenseID }) {
   const [category, setCategory] = useState("");
   const [expenditure, setExpenditure] = useState(0);
 
-  // Get the categories from the backend
-  const getCategories = () => {
-    fetch(
-      "https://expense-tracker.pockethost.io/api/collections/categories/records?page=1&perPage=30",
-      { cache: "no-store" }
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        const cats = data?.items.map((item) => item.name);
-        setCategories(cats);
-      })
-      .catch((error) => console.log(error));
-  };
-
-  const getExpense = () => {
-    fetch(
-      `https://expense-tracker.pockethost.io/api/collections/expenses/records/${expenseID}`,
-      { next: { revalidate: 10 } }
-    )
-      .then((response) => response.json())
-      .then((data) => setExpense(data));
-  };
-
-  // Do this once
+  // Do this whenever dependency changes
   useEffect(() => {
+    // Get the categories from the backend
+    const getCategories = (getDefaults = false) => {
+      const params = "/api/collections/categories/records?page=1&perPage=30";
+      const filter = `&filter=(user_id='${getDefaults ? "" : userID}')`;
+
+      fetch(process.env.SERVER + params + filter, { cache: "no-store" })
+        .then((res) => res.json())
+        .then((data) => {
+          const cats = data?.items.map((item) => item.name);
+          if (cats.length === 0) {
+            // Initiate another fetch request, requesting defaults
+            return getCategories(true);
+          }
+          setCategories(cats);
+        })
+        .catch((error) => console.log(error));
+
+      
+    };
     getCategories();
     // If we're doing an update (PATCH), fetch the expense
     if (patch) {
-      getExpense();
+      // Get the expense
+      (() => {
+        fetch(
+          process.env.SERVER + `/api/collections/expenses/records/${expenseID}`,
+          { next: { revalidate: 10 } }
+        )
+          .then((response) => response.json())
+          .then((data) => setExpense(data));
+      })();
     }
-  }, []);
+  }, [patch, expenseID, userID]);
 
   // Update the name, category and expenditure
   // whenever the expense updates
@@ -73,28 +77,31 @@ export default function CreateExpense({ patch, expenseID }) {
     let method = "";
     // If we're serving a update request
     if (patch) {
-      path = `https://expense-tracker.pockethost.io/api/collections/expenses/records/${expenseID}`;
+      path =
+        process.env.SERVER + `/api/collections/expenses/records/${expenseID}`;
       method = "PATCH";
     } else {
-      path =
-        "https://expense-tracker.pockethost.io/api/collections/expenses/records";
+      path = process.env.SERVER + "/api/collections/expenses/records";
       method = "POST";
     }
 
+    const expenseData = {
+      name: name,
+      category:
+        typeof category === "undefined" || category.length === 0
+          ? categories[0]
+          : category,
+      expenditure: expenditure,
+      user_id: userID,
+    };
+
     // Send the required request to the destined path
-    await fetch(path, {
+    const resp = await fetch(path, {
       method: method,
       headers: {
         "content-type": "application/json",
       },
-      body: JSON.stringify({
-        name,
-        category:
-          typeof category === "undefined" || category.length === 0
-            ? categories[0]
-            : category,
-        expenditure,
-      }),
+      body: JSON.stringify(expenseData),
     });
     // Change the loading state and redirect to expenses
     setLoading(false);
@@ -108,10 +115,11 @@ export default function CreateExpense({ patch, expenseID }) {
   // Check if we should update the state to loading?
   if (patch && typeof expense?.id === "undefined")
     return <Loader context={"update"} />;
+
   if (categories.length === 0) return <Loader context={"categories"} />;
 
   return (
-    <form onSubmit={handleSubmit} className={styles.createExpenseForm}>
+    <form onSubmit={handleSubmit} className={styles.customForm}>
       <Heading text={patch ? "Update" : "Add"} coloredText={"Expense"} />
 
       <label htmlFor="expense-name">

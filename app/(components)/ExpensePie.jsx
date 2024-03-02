@@ -3,7 +3,7 @@ import { Chart as ChartJS, ArcElement, Tooltip } from "chart.js";
 import { Pie } from "react-chartjs-2";
 import { useEffect, useState } from "react";
 import styles from "./expense-pie.module.css";
-import { arraySum, currencyFormatter } from "../utils";
+import { arraySum, currencyFormatter } from "../(lib)/utils";
 
 ChartJS.register(ArcElement, Tooltip);
 

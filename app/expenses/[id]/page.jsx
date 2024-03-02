@@ -13,14 +13,14 @@ export default function ExpensePage({ params }) {
 
   useEffect(() => {
     fetch(
-      `https://expense-tracker.pockethost.io/api/collections/expenses/records/${params.id}`,
+      process.env.SERVER + `/api/collections/expenses/records/${params.id}`,
       {
         next: { revalidate: 10 },
       }
     )
     .then(response => response.json())
     .then(data => setExpense(data));
-  }, []);
+  }, [params.id]);
 
   // const expense = await getExpense(params.id);
   const created = new Date(expense?.created);

@@ -2,21 +2,24 @@ import styles from "./page.module.css";
 import Heading from "./(components)/Heading";
 import ExpensePie from "./(components)/ExpensePie";
 import moment from "moment";
-import { groupBy, arraySum } from "./utils";
+import { groupBy, arraySum } from "./(lib)/utils";
+import { cookies } from "next/headers";
+import { getUser } from "./(lib)/auth";
 
-const getExpenseToday = async () => {
+const getExpenseToday = async (userID) => {
   // Today's date
   // let today = new Date();
 
   let today = moment.utc().format("YYYY-MM-DD");
   // Send a fetch request for particular date
-  const path = "https://expense-tracker.pockethost.io";
   const params = "/api/collections/expenses/records?page=1&perPage=50";
-  const filter = `&filter=(created~'${today}')`;
+  const filter = `&filter=(created~'${today}'%26%26user_id='${userID}')`;
   // Send the fetch request
-  const res = await fetch(path + params + filter, {
+  const res = await fetch(process.env.SERVER + params + filter, {
     cache: "no-store",
   });
+
+  console.log(process.env.SERVER + params + filter);
   // Get the items
   const data = await res.json();
   // Return the items
@@ -24,8 +27,17 @@ const getExpenseToday = async () => {
 };
 
 export default async function Home() {
-  const username = "Rakshit";
-  const expenses = await getExpenseToday();
+
+  // Get the current logged-in user
+  const session = cookies().get("session")?.value;
+  // const {user = await getUser(session);
+  const {record, token} = await getUser(session);
+  // console.log(session);
+
+  // Get today's expenses
+  const expenses = await getExpenseToday(record.id);
+  
+  const username = record.name.split(" ")[0];
 
   // Group the expenses by their category
   const groupedExpenses = groupBy(expenses, (expense) => expense.category);
