@@ -198,7 +198,7 @@ function RegisterComponent({ router }) {
         <span>Repeat Password</span>
       </label> */}
       </Form>
-      <Link className="redirect-links" href="#">Login Instead</Link>
+      <Link className="redirect-links" href="/auth">Login Instead</Link>
     </>
   );
 }
