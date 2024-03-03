@@ -109,6 +109,7 @@ function RegisterComponent({ router }) {
       password: password,
       passwordConfirm: password,
       name: fullname,
+      monthly_limit: 1
     };
 
     // Send a request to create the user
