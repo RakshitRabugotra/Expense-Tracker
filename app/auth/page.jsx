@@ -4,8 +4,10 @@ import Form from "../(components)/Form";
 import styles from "./auth.module.css";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
+import Loader from "../(components)/Loader";
 
-const loginUser = async ({ email, password, callbackUrl, router }) => {
+const loginUser = async ({ email, password, router }) => {
+
   try {
     // Try logging the user in
     const response = await fetch(
@@ -26,24 +28,7 @@ const loginUser = async ({ email, password, callbackUrl, router }) => {
     if (response.status === 400) throw userData;
 
     // On successful login, send a login request for the middleware
-    try {
-      const resp = await fetch("/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: userData.token,
-        },
-      });
-      // If the status is not good, then return
-      if (resp.status !== 200) return;
-      // Check if we have any callbackURL
-      if (typeof callbackUrl !== "undefined") {
-        router.replace(callbackUrl);
-      }
-    }
-    catch(error) {
-      console.log(error);
-    }
+    router.replace(`/login?token=${userData.token}`);
   } catch (error) {
     console.log(error);
     // alert("Incorrect Username/Password\nPlease retry...");
@@ -51,17 +36,26 @@ const loginUser = async ({ email, password, callbackUrl, router }) => {
   }
 };
 
-function LoginComponent({ callbackUrl, router }) {
+function LoginComponent({ router }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isLoading, setLoading] = useState(false);
 
+
+  const handleLogin = async() => {
+    setLoading(true);
+    await loginUser({ email, password, router })
+    setLoading(false);
+  }
+
+  // Show the loading screen if we're processing...
+  if(isLoading) return <Loader context={"login"}/>
+  // Else the form
   return (
     <>
       <Form
         heading={{ text: "Login", coloredText: "User" }}
-        submitHandler={() =>
-          loginUser({ email, password, callbackUrl, router })
-        }
+        submitHandler={handleLogin}
         buttonText={{
           loading: "Loading",
           normal: "Login",
@@ -91,26 +85,24 @@ function LoginComponent({ callbackUrl, router }) {
           <span>Password</span>
         </label>
       </Form>
-      <Link
-        className="redirect-links"
-        href={
-          "?register=1" + (!callbackUrl ? "" : `&callbackUrl=${callbackUrl}`)
-        }
-      >
-        Register Instead
-      </Link>
+      <Link className="redirect-links" href="?register=true">Register Instead</Link>
     </>
   );
 }
 
-function RegisterComponent({ router, callbackUrl }) {
+function RegisterComponent({ router }) {
   // The state of this component
   const [fullname, setFullname] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordRep, setPasswordRep] = useState("");
 
+  // The loading state of the component
+  const [isLoading, setLoading] = useState(false);
+
+  // The submit handler
   const registerUser = async () => {
+    setLoading(true);
     const user = {
       email: email,
       emailVisibility: true,
@@ -134,16 +126,20 @@ function RegisterComponent({ router, callbackUrl }) {
       const data = await response.json();
       // The user is created successfully
       // Login the user
-      loginUser({
+      await loginUser({
         email: user.email,
         password: user.password,
-        callbackUrl,
-        router,
+        router
       });
     }
     // Send an email verification request
     // await pb.collection("users").requestVerification(data.email);
+    setLoading(false);
   };
+
+  
+  // If loading then display this
+  if(isLoading) return <Loader context={"register"}/>
 
   return (
     <>
@@ -201,12 +197,7 @@ function RegisterComponent({ router, callbackUrl }) {
         <span>Repeat Password</span>
       </label> */}
       </Form>
-      <Link
-        className="redirect-links"
-        href={!callbackUrl ? "" : `?callbackUrl=${callbackUrl}`}
-      >
-        Login Instead
-      </Link>
+      <Link className="redirect-links" href="#">Login Instead</Link>
     </>
   );
 }
@@ -214,17 +205,14 @@ function RegisterComponent({ router, callbackUrl }) {
 export default function AuthPage() {
   const searchParams = useSearchParams();
   const isRegister = searchParams.get("register");
-  console.log("is register? ", isRegister);
-  const callbackUrl = searchParams.get("callbackUrl");
-  console.log("callback: ", callbackUrl);
   const router = useRouter();
 
   return (
     <div className={styles.page}>
       {isRegister ? (
-        <RegisterComponent callbackUrl={callbackUrl} router={router} />
+        <RegisterComponent router={router}/>
       ) : (
-        <LoginComponent callbackUrl={callbackUrl} router={router} />
+        <LoginComponent router={router}/>
       )}
     </div>
   );

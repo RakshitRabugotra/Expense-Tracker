@@ -5,16 +5,15 @@ export async function middleware(request) {
   const path = request.nextUrl.pathname;
 
   // If the app is requesting for a login
-  if(!session && path === "/login") {
-    console.log("path type: ", typeof path, path);
+  if(!session && path.startsWith("/login")) {
     // Login the user
-    const authorization = request.headers.get('authorization');
+    const authorization = request.nextUrl.searchParams.get('token');
     // If the authorization is not provided then leave to the route
-    if(typeof authorization === "undefined") return NextResponse.next();;
+    if(typeof authorization === "undefined") return NextResponse.next();
     
     // Else login the user
     // Set the session token
-    const res = NextResponse.next();
+    const res = NextResponse.redirect(new URL("/", request.url));
     res.cookies.set({
       name: "session",
       value: authorization,
@@ -32,13 +31,13 @@ export async function middleware(request) {
       name: "session",
       value: "",
       expires: new Date(0),
+      httpOnly: true
     });
     return res;
   }
   // If the session is not active and we're not at /auth
   if (!session && path !== "/auth") {
     const url = new URL("/auth", request.url);
-    url.searchParams.set("callbackUrl", path);
     const resp = NextResponse.redirect(url);
     return resp;
   }

@@ -18,8 +18,6 @@ const getExpenseToday = async (userID) => {
   const res = await fetch(process.env.SERVER + params + filter, {
     cache: "no-store",
   });
-
-  console.log(process.env.SERVER + params + filter);
   // Get the items
   const data = await res.json();
   // Return the items
@@ -30,9 +28,7 @@ export default async function Home() {
 
   // Get the current logged-in user
   const session = cookies().get("session")?.value;
-  // const {user = await getUser(session);
   const {record, token} = await getUser(session);
-  // console.log(session);
 
   // Get today's expenses
   const expenses = await getExpenseToday(record.id);

@@ -65,8 +65,6 @@ export default function ExpensePie({ categorizedExpenditure, dailyLimit }) {
     setColorMap(tempMap);
   }, [categorizedExpenditure]);
 
-  console.log(colorMap);
-
   return (
     <div className={styles.pieComponent}>
       <h3>{"Today's Expense"}</h3>
