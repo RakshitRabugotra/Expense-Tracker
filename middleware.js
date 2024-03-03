@@ -13,7 +13,7 @@ export async function middleware(request) {
     
     // Else login the user
     // Set the session token
-    const res = NextResponse.redirect(new URL("/", request.url));
+    const res = NextResponse.redirect(new URL("/profile", request.url));
     res.cookies.set({
       name: "session",
       value: authorization,

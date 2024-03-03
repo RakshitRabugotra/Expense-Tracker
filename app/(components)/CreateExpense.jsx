@@ -41,8 +41,6 @@ export default function CreateExpense({ patch, expenseID, userID }) {
           setCategories(cats);
         })
         .catch((error) => console.log(error));
-
-      
     };
     getCategories();
     // If we're doing an update (PATCH), fetch the expense
@@ -77,8 +75,7 @@ export default function CreateExpense({ patch, expenseID, userID }) {
     let method = "";
     // If we're serving a update request
     if (patch) {
-      path =
-        process.env.SERVER + `/api/collections/expenses/records/${expenseID}`;
+      path = process.env.SERVER + `/api/collections/expenses/records/${expenseID}`;
       method = "PATCH";
     } else {
       path = process.env.SERVER + "/api/collections/expenses/records";

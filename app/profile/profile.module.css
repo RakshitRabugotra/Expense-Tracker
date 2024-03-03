@@ -7,3 +7,17 @@
   min-height: 100vh;
   margin-bottom: var(--navbar-height);
 }
+
+.page > * {
+  width: 100%;
+}
+
+
+.page section {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 8px;
+  border-left: 8px solid var(--olive); 
+  border-radius: 8px;
+}

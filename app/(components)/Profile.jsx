@@ -1,24 +1,62 @@
 "use client";
-import { useRouter } from "next/navigation";
+import { useState } from "react";
 import Heading from "./Heading";
+import Link from "next/link";
+import Form from "./Form";
 
 export default function Profile({ user, children }) {
-  // To change the url of the application
-  const router = useRouter();
+  const [monthlyLimit, setMonthlyLimit] = useState(user.monthly_limit);
 
-  const handleLogout = async (e) => {
-    e.preventDefault();
-    router.replace("/logout");
-    router.refresh();
+  const updateMonthlyLimit = async() => {
+    fetch(process.env.SERVER + `/api/collections/users/records/${user.id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        monthly_limit: Math.max(1, monthlyLimit),
+      }),
+      next: { revalidate: process.env.REVALIDATE_EXPENSE_SECONDS },
+    })
+    .then((response) => {
+      if (response.status !== 200) throw response;
+    })
+    .catch((error) => console.log(error));
   };
 
   return (
-    <div>
+    <>
       <Heading text={"Welcome"} coloredText={user.username} />
       {children}
-      <form onSubmit={handleLogout}>
-        <button type="submit">Logout</button>
-      </form>
-    </div>
+
+      {/* To change the username */}
+
+      {/* To change the monthly limit */}
+
+      <section>
+        <h3>Preferences</h3>
+        <Form
+          submitHandler={updateMonthlyLimit}
+          buttonText={{ normal: "Save", loading: "Wait" }}
+        >
+          <label htmlFor={"monthly-limit"}>
+            <input
+              required
+              type="number"
+              name="monthly-limit"
+              placeholder="Monthly Limit"
+              value={monthlyLimit}
+              onChange={(e) => {
+                +e.target.value >= 0 && setMonthlyLimit(e.target.value);
+              }}
+            />
+            <span>Monthly Limit</span>
+          </label>
+        </Form>
+      </section>
+
+      {/* The logout button */}
+      <Link className="redirect-links" href="/logout">
+        Logout
+      </Link>
+    </>
   );
 }

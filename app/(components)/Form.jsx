@@ -13,10 +13,10 @@ export default function Form({ heading, submitHandler, buttonText, children }) {
         <Heading text={heading.text} coloredText={heading.coloredText} />
       )}
       <form
-        onSubmit={(e) => {
+        onSubmit={async (e) => {
           e.preventDefault();
           setLoading(true);
-          submitHandler(e);
+          await submitHandler(e);
           setLoading(false);
         }}
         className={styles.customForm}

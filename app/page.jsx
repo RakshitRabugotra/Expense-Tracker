@@ -38,7 +38,7 @@ export default async function Home() {
   // Group the expenses by their category
   const groupedExpenses = groupBy(expenses, (expense) => expense.category);
 
-  const dailyLimit = 10000/30;
+  const dailyLimit = record.monthly_limit/30;
 
   // Create a new object containing these pairs
   const categorizedExpenditure = {};
