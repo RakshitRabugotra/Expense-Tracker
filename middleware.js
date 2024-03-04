@@ -17,6 +17,7 @@ export async function middleware(request) {
     res.cookies.set({
       name: "session",
       value: authorization,
+      path: "/",
       expires: new Date(Date.now() + process.env.AUTH_TOKEN_LIFE),
       httpOnly: true
     });
@@ -30,6 +31,7 @@ export async function middleware(request) {
     res.cookies.set({
       name: "session",
       value: "",
+      path: "/",
       expires: new Date(0),
       httpOnly: true
     });
@@ -50,6 +52,7 @@ export async function middleware(request) {
   res.cookies.set({
     name: "session",
     value: request.cookies.get("session")?.value,
+    path: "/",
     httpOnly: true,
     expires: new Date(Date.now() + process.env.AUTH_TOKEN_LIFE),
   });
