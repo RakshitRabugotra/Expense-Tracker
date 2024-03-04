@@ -5,7 +5,7 @@ export async function middleware(request) {
   const path = request.nextUrl.pathname;
 
   // If the app is requesting for a login
-  if(!session && path.startsWith("/login")) {
+  if(path.startsWith("/login")) {
     // Login the user
     const authorization = request.nextUrl.searchParams.get('token');
     // If the authorization is not provided then leave to the route
