@@ -18,7 +18,7 @@ export async function middleware(request) {
       name: "session",
       value: authorization,
       path: "/",
-      expires: new Date(Date.now() + process.env.AUTH_TOKEN_LIFE),
+      expires: new Date(Date.now() + 86_400_000),
       httpOnly: true
     });
     return res;
@@ -53,8 +53,8 @@ export async function middleware(request) {
     name: "session",
     value: request.cookies.get("session")?.value,
     path: "/",
+    expires: new Date(Date.now() + 86_400_000),
     httpOnly: true,
-    expires: new Date(Date.now() + process.env.AUTH_TOKEN_LIFE),
   });
   return res;
 }
