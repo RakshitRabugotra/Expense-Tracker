@@ -17,8 +17,7 @@ export async function middleware(request) {
     res.cookies.set({
       name: "session",
       value: authorization,
-      path: "/",
-      expires: new Date(Date.now() + 86_400_000),
+      expires: new Date(Date.now() + parseInt(process.env.AUTH_TOKEN_LIFE)),
       httpOnly: true
     });
     return res;
@@ -31,13 +30,11 @@ export async function middleware(request) {
     res.cookies.set({
       name: "session",
       value: "",
-      path: "/",
       expires: new Date(0),
       httpOnly: true
     });
     return res;
   }
-
   // If the session is not active and we're not at /auth
   if (!session && path !== "/auth") {
     const url = new URL("/auth", request.url);
@@ -52,9 +49,8 @@ export async function middleware(request) {
   res.cookies.set({
     name: "session",
     value: request.cookies.get("session")?.value,
-    path: "/",
-    expires: new Date(Date.now() + 86_400_000),
     httpOnly: true,
+    expires: new Date(Date.now() + 86_400_000),
   });
   return res;
 }
