@@ -36,18 +36,6 @@ export async function middleware(request) {
     return res;
   }
 
-  // If the session is active and we go to auth, then clear the cookies
-  if(session && path === "/auth") {
-    const res = NextResponse.redirect(new URL("/auth", request.url));
-    res.cookies.set({
-      name: "session",
-      value: "",
-      expires: new Date(0),
-      httpOnly: true
-    });
-    return res;
-  }
-
   // If the session is not active and we're not at /auth
   if (!session && path !== "/auth") {
     const url = new URL("/auth", request.url);
