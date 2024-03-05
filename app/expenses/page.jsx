@@ -71,7 +71,7 @@ const ExpenseList = ({ expenses }) => {
       <>
         <div className={styles.dateContainer}>{date}</div>
         {expenses.map((expense, index) => {
-          return <ExpenseEntry expense={expense} key={index} />;
+          return <ExpenseEntry expense={expense} key={index} isLink={true} />;
         })}
       </>
     );

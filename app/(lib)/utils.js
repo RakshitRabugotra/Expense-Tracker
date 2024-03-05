@@ -1,8 +1,57 @@
+import moment from "moment";
+
 // Currency formatter
 export const currencyFormatter = new Intl.NumberFormat('en-IN', {
   style: 'currency',
   currency: 'INR'
 });
+
+// Number of days in this month
+export const daysInCurrentMonth = () => new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0).getDate();
+
+// Number of days left in this month
+export const daysLeftInThisMonth = () => daysInCurrentMonth() - new Date().getDate();
+
+export const getExpenseToday = async (userID) => {
+  const today = moment.utc().format("YYYY-MM-DD");
+  // Send a fetch request for particular date
+  const params = "/api/collections/expenses/records?page=1&perPage=50";
+  const filter = `&filter=(created~'${today}'%26%26user_id='${userID}')`;
+  // Send the fetch request
+  const res = await fetch(process.env.SERVER + params + filter, {
+    cache: "no-store",
+  });
+  // Get the items
+  const data = await res.json();
+  // Return the items
+  return data?.items;
+};
+
+export const getExpenseThisMonth = async (userID) => {
+  const monthStart = new Date(
+    new Date().getFullYear(),
+    new Date().getMonth(),
+    1
+  ).toISOString();
+  const monthEnd = new Date(
+    new Date().getFullYear(),
+    new Date().getMonth() + 1,
+    1
+  ).toISOString();
+
+  const params = "/api/collections/expenses/records?page=1&perPage=50";
+  const filter = `&filter=(created>='${monthStart}'%26%26created<='${monthEnd}'%26%26user_id='${userID}')`;
+  // Send the fetch request
+  console.log(process.env.SERVER + params + filter);
+  const res = await fetch(process.env.SERVER + params + filter, {
+    cache: "no-cache",
+  });
+  // Get the items
+  const data = await res.json();
+  // Return the items
+  return data?.items;
+};
+
 
 // Function to group certain elements in an listect by a key
 export function groupBy(list, keyGetter) {

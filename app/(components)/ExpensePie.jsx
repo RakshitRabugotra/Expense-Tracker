@@ -3,7 +3,13 @@ import { Chart as ChartJS, ArcElement, Tooltip } from "chart.js";
 import { Pie } from "react-chartjs-2";
 import { useEffect, useState } from "react";
 import styles from "./expense-pie.module.css";
-import { arraySum, currencyFormatter } from "../(lib)/utils";
+import {
+  arraySum,
+  currencyFormatter,
+  daysLeftInThisMonth,
+  getExpenseToday,
+  getExpenseThisMonth,
+} from "../(lib)/utils";
 
 ChartJS.register(ArcElement, Tooltip);
 
@@ -26,11 +32,42 @@ const options = {
   },
 };
 
-export default function ExpensePie({ categorizedExpenditure, dailyLimit }) {
+export default function ExpensePie({categorizedExpenditure, user}) {
   // Get the draw function from outside
   const [data, setData] = useState({});
   const [dailyTotal, setDailyTotal] = useState(0);
   const [colorMap, setColorMap] = useState(new Map());
+  const [monthlyTotal, setMonthlyTotal] = useState(0);
+  const [todayTotal, setTodayTotal] = useState(0);
+  const [dailyLimit, setDailyLimit] = useState(0);
+
+  useEffect(() => {
+    getExpenseThisMonth(user.id).then((expenses) => {
+      let total = 0;
+      expenses.forEach((expense) => {
+        total += parseFloat(expense.expenditure);
+      });
+      setMonthlyTotal(total);
+    });
+
+    // Get the expenses done this day
+    getExpenseToday(user.id).then((expenses) => {
+      let total = 0;
+      expenses.forEach((expense) => {
+        total += parseFloat(expense.expenditure);
+      })
+      setTodayTotal(total);
+    })
+  }, [user.id]);
+
+  // If the user hasn't spent any money right now,
+  // then calculate the new daily limit
+  useEffect(() => {
+    if(todayTotal === 0) {
+      const daysLeft = daysLeftInThisMonth();
+      setDailyLimit((user.monthly_limit - monthlyTotal) / daysLeft)
+    }
+  }, [dailyLimit, todayTotal, user.monthly_limit, monthlyTotal]);
 
   useEffect(() => {
     // Get the keys and values separately
@@ -104,7 +141,8 @@ export default function ExpensePie({ categorizedExpenditure, dailyLimit }) {
                   className={styles.legendPercentage}
                   style={{ color: color }}
                 >
-                  {(expenseRatio * 100).toFixed(2)}<span>{"%"}</span>
+                  {(expenseRatio * 100).toFixed(2)}
+                  <span>{"%"}</span>
                 </div>
               </div>
             );
