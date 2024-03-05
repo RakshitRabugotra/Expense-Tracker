@@ -1,25 +1,36 @@
 "use client";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import Heading from "./Heading";
 import Link from "next/link";
 import Form from "./Form";
 
 export default function Profile({ user, children }) {
-  const [monthlyLimit, setMonthlyLimit] = useState(user.monthly_limit);
+  const [userMonthly, setUserMonthly] = useState(user.monthly_limit);
+  const [monthlyLimit, setMonthlyLimit] = useState(userMonthly);
+  const [isLoading, setLoading] = useState(false);
 
-  const updateMonthlyLimit = async() => {
+  const isChanged = useMemo(() => {
+    return monthlyLimit !== userMonthly;
+  }, [monthlyLimit, userMonthly]);
+
+  const updateMonthlyLimit = (e) => {
+    e.preventDefault();
+    setLoading(true);
     fetch(process.env.SERVER + `/api/collections/users/records/${user.id}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        monthly_limit: Math.max(1, monthlyLimit),
+        monthly_limit: Math.max(1, parseInt(monthlyLimit)),
       }),
       next: { revalidate: process.env.REVALIDATE_EXPENSE_SECONDS },
     })
-    .then((response) => {
-      if (response.status !== 200) throw response;
-    })
-    .catch((error) => console.log(error));
+      .then((response) => {
+        if (response.status !== 200) throw response;
+      })
+      .catch((error) => console.log(error));
+    
+    setUserMonthly(prev => monthlyLimit);
+    setLoading(false);
   };
 
   return (
@@ -50,6 +61,10 @@ export default function Profile({ user, children }) {
             />
             <span>Monthly Limit</span>
           </label>
+
+          <button type="submit" disabled={isLoading || !isChanged}>
+            {isChanged ? (isLoading ? "Saving" : "Save") : "Saved"}
+          </button>
         </Form>
       </section>
 

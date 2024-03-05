@@ -13,18 +13,18 @@ export async function middleware(request) {
     
     // Else login the user
     // Set the session token
-    const res = NextResponse.redirect(new URL("/profile", request.url));
+    const res = NextResponse.redirect(new URL("/", request.url));
     res.cookies.set({
       name: "session",
       value: authorization,
-      expires: new Date(Date.now() + parseInt(process.env.AUTH_TOKEN_LIFE)),
+      expires: new Date(Date.now() + 86_400_000),
       httpOnly: true
     });
     return res;
   }
 
   // If the path is logout and session is active
-  if (session && path === "/logout") {
+  if (path === "/logout") {
     // Clear all the cookies
     const res = NextResponse.redirect(new URL("/", request.url));
     res.cookies.set({

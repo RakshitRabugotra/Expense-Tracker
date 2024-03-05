@@ -66,7 +66,7 @@ export default function CreateExpense({ patch, expenseID, userID }) {
     setExpenditure(expense?.expenditure);
   }, [expense]);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     // Prevent the default behavior
     e.preventDefault();
     setLoading(true);
@@ -75,7 +75,8 @@ export default function CreateExpense({ patch, expenseID, userID }) {
     let method = "";
     // If we're serving a update request
     if (patch) {
-      path = process.env.SERVER + `/api/collections/expenses/records/${expenseID}`;
+      path =
+        process.env.SERVER + `/api/collections/expenses/records/${expenseID}`;
       method = "PATCH";
     } else {
       path = process.env.SERVER + "/api/collections/expenses/records";
@@ -93,13 +94,14 @@ export default function CreateExpense({ patch, expenseID, userID }) {
     };
 
     // Send the required request to the destined path
-    const resp = await fetch(path, {
+    fetch(path, {
       method: method,
       headers: {
         "content-type": "application/json",
       },
       body: JSON.stringify(expenseData),
-    });
+    }).then((response) => {});
+
     // Change the loading state and redirect to expenses
     setLoading(false);
     router.replace("/expenses");
