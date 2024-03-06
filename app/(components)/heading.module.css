@@ -1,5 +1,9 @@
 /* Heading */
 .heading {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
   width: 100%;
   text-align: left;
   color: var(--dark);
@@ -10,4 +14,20 @@
 .heading p {
   width: 100%;
   color: var(--olive);
+}
+
+.refresh svg {
+  font-size: 48px;
+  color: var(--dark);
+  transition: all 300ms ease;
+  padding: 0;
+  margin: auto;
+  display: block;
+  text-align: center;
+}
+
+.refresh svg:hover {
+  filter: drop-shadow(0px 0px 6px var(--light-green));
+  border-color: var(--light-green);
+  transform: rotate(100deg);
 }

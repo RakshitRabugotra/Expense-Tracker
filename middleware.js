@@ -4,6 +4,8 @@ export async function middleware(request) {
   const session = request.cookies.get("session")?.value;
   const path = request.nextUrl.pathname;
 
+  console.log("path: ", path);
+
   // If the app is requesting for a login
   if(path.startsWith("/login")) {
     // Login the user
@@ -17,9 +19,10 @@ export async function middleware(request) {
     res.cookies.set({
       name: "session",
       value: authorization,
-      expires: new Date(Date.now() + 86_400_000),
+      expires: new Date(Date.now() + 7 * 86_400_000),
       httpOnly: true
     });
+    console.log("Logging in....");
     return res;
   }
 
@@ -33,16 +36,22 @@ export async function middleware(request) {
       expires: new Date(0),
       httpOnly: true
     });
+    console.log("Logging out....");
     return res;
   }
+
   // If the session is not active and we're not at /auth
   if (!session && path !== "/auth") {
     const url = new URL("/auth", request.url);
     const resp = NextResponse.redirect(url);
+    console.log("Redirecting to auth....");
     return resp;
   }
   // If the session is not active, go to the next page
-  if (!session) return NextResponse.next();
+  if (!session) {
+    console.log("Session is not defined...");
+    return NextResponse.next();
+  }
 
   // Set a new expiration time for session
   const res = NextResponse.next();
@@ -50,8 +59,9 @@ export async function middleware(request) {
     name: "session",
     value: request.cookies.get("session")?.value,
     httpOnly: true,
-    expires: new Date(Date.now() + 86_400_000),
+    expires: new Date(Date.now() + 7 * 86_400_000),
   });
+  console.log("Setting the cookies....");
   return res;
 }
 
