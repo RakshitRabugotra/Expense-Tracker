@@ -68,18 +68,18 @@ const ExpenseList = ({ expenses }) => {
   groupedExpenses.forEach((expenses, date) => {
     // Push this component to the list
     expenseList.push(
-      <>
+      <div className={styles.dateGroup}>
         <div className={styles.dateContainer}>{date}</div>
         {expenses.map((expense, index) => {
           return <ExpenseEntry expense={expense} key={index} isLink={true} />;
         })}
-      </>
+      </div>
     );
   });
 
   // Else, return the whole list
   return (
-    <div className={styles.expensePage}>
+    <div className="page">
       <Heading text={"Your"} coloredText={"Expenses"} />
       <div className={styles.expenseList}>
         {expenseList}

@@ -32,7 +32,7 @@ const options = {
   },
 };
 
-export default function ExpensePie({categorizedExpenditure, user}) {
+export default function ExpensePie({ categorizedExpenditure, user }) {
   // Get the draw function from outside
   const [data, setData] = useState({});
   const [dailyTotal, setDailyTotal] = useState(0);
@@ -55,17 +55,17 @@ export default function ExpensePie({categorizedExpenditure, user}) {
       let total = 0;
       expenses.forEach((expense) => {
         total += parseFloat(expense.expenditure);
-      })
+      });
       setTodayTotal(total);
-    })
+    });
   }, [user.id]);
 
   // If the user hasn't spent any money right now,
   // then calculate the new daily limit
   useEffect(() => {
-    if(todayTotal === 0) {
+    if (todayTotal === 0) {
       const daysLeft = daysLeftInThisMonth();
-      setDailyLimit((user.monthly_limit - monthlyTotal) / daysLeft)
+      setDailyLimit((user.monthly_limit - monthlyTotal) / daysLeft);
     }
   }, [dailyLimit, todayTotal, user.monthly_limit, monthlyTotal]);
 
@@ -104,24 +104,25 @@ export default function ExpensePie({categorizedExpenditure, user}) {
 
   return (
     <div className={styles.pieComponent}>
-      <h3>{"Today's Expense"}</h3>
-
-      <div className={styles.pieChart}>
-        {typeof data?.labels !== "undefined" && (
-          <>
-            <Pie data={data} options={options}></Pie>
-            <div className={styles.pieCircle}>
-              {/* Calculate the daily expense percentage, based on the limit */}
-              <h4>{((dailyTotal * 100) / dailyLimit).toFixed(2) + "%"}</h4>
-              {dailyLimit && (
-                <>
-                  <div>of daily limit</div>
-                  <h4>{currencyFormatter.format(dailyLimit.toFixed(2))}</h4>
-                </>
-              )}
-            </div>
-          </>
-        )}
+      <div className={styles.pieGroup}>
+        <h3>{"Today's Expense"}</h3>
+        <div className={styles.pieChart}>
+          {typeof data?.labels !== "undefined" && (
+            <>
+              <Pie data={data} options={options}></Pie>
+              <div className={styles.pieCircle}>
+                {/* Calculate the daily expense percentage, based on the limit */}
+                <h4>{((dailyTotal * 100) / dailyLimit).toFixed(2) + "%"}</h4>
+                {dailyLimit && (
+                  <>
+                    <div>of daily limit</div>
+                    <h4>{currencyFormatter.format(dailyLimit.toFixed(2))}</h4>
+                  </>
+                )}
+              </div>
+            </>
+          )}
+        </div>
       </div>
       {colorMap.size !== 0 && (
         <div className={styles.pieLegends}>

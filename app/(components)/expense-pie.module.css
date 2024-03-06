@@ -1,9 +1,14 @@
 /* The pie chat */
 .pieComponent {
+
+  --flex-direction: column;
+  --width: 100%;
+
   display: flex;
+  width: var(--width);
   justify-content: center;
   align-items: center;
-  flex-direction: column;
+  flex-direction: var(--flex-direction);
   gap: 16px;
   padding: 24px;
   background-color: var(--dark);
@@ -11,7 +16,13 @@
   box-shadow: 4px 4px 0px var(--fade-green);
 }
 
-.pieComponent h3 {
+.pieGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.pieGroup h3 {
   font-size: 24px;
   text-align: center;
   color: var(--pale-green);
@@ -91,4 +102,28 @@
 
 .legendPercentage span {
   font-size: 12px;
+}
+
+
+@media (min-width: 575.98px) {
+
+}
+
+@media (min-width: 767.98px) {
+
+}
+
+@media (min-width: 991.98px) {
+
+}
+
+@media (min-width: 1199.98px) {
+
+}
+
+@media (min-width: 1399.98px) {
+  .pieComponent {
+    --flex-direction:row;
+    --width: min-content;
+  } 
 }

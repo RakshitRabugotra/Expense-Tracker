@@ -259,7 +259,7 @@ export default function AuthPage() {
   const router = useRouter();
 
   return (
-    <div className={styles.page}>
+    <div className="page">
       {isRegister ? (
         <RegisterComponent router={router} />
       ) : (

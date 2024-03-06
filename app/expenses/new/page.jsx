@@ -8,7 +8,7 @@ export default async function CreateNewExpense() {
     const token = cookies().get("session")?.value;
     const {record, tokenJWT} = await getUser(token);
 
-    return (<div className={styles.newPage}>
+    return (<div className="page">
         <CreateExpense userID={record.id}/>
     </div>);
 }

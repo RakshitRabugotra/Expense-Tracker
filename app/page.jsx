@@ -24,7 +24,7 @@ export default async function Home() {
   });
 
   return (
-    <main className={styles.main}>
+    <main className={`page ${styles.main}`}>
       <Heading text={"Hello,"} coloredText={username + "!"} />
       {/* The canvas to show the expenses for the day */}
       <ExpensePie categorizedExpenditure={categorizedExpenditure} user={record}/>
