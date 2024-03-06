@@ -10,6 +10,7 @@
   /* Set the background color to make it distinct */
   background-color: var(--box-white);
   border-radius: 8px;
+  border: var(--expense-border);
 }
 
 .expenseIcon svg {
@@ -28,6 +29,12 @@
   align-items: center;
 }
 
+.expenseExpenditure {
+  width: 40%;
+  display: flex;
+  flex-wrap: wrap;
+}
+
 .currencyWhole {
   font-size: 24px;
 }
@@ -43,7 +50,7 @@
 }
 
 .expenseInformation {
-  width: 60%;
+  width: 40%;
 }
 .expenseInformation > * {
   width: 100%;
@@ -58,4 +65,24 @@
   font-weight: bold;
   font-size: 12px;
   line-height: 24px;
+}
+
+
+@media (min-width: 575.98px) {
+}
+
+@media (min-width: 767.98px) {
+}
+
+@media (min-width: 991.98px) {
+  .expenseItem {
+    width: 100%;
+    min-width: 500px;
+  }
+}
+
+@media (min-width: 1199.98px) {
+}
+
+@media (min-width: 1399.98px) {
 }

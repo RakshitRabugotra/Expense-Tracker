@@ -62,7 +62,7 @@ export default async function ProfilePage() {
   if (typeof token === "undefined") return <NotLoggedIn />;
 
   return (
-    <div className={styles.page}>
+    <div className="page">
       <Profile user={record}>
         <div>Email: {record.email}</div>
       </Profile>

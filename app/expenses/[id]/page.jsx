@@ -53,7 +53,7 @@ export default function ExpensePage({ params }) {
   }
 
   return (
-    <div className={styles.expenseView}>
+    <div className={`page ${styles.page}`}>
       {/* Give the date here */}
       <Heading text={`${day} ${month},`} coloredText={year} />
       {/* The expense entry */}

@@ -1,30 +1,28 @@
-.newPage {
-  width: 100%;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  padding: 24px;
-  margin-bottom: var(--navbar-height);
-}
-
-.expensePage {
-  display: flex;
-  flex-direction: column;
-  padding: 24px;
-  gap: 24px;
-  min-height: 100vh;
-  margin-bottom: var(--navbar-height);
-}
-
 .expenseList {
+  --list-flex-direction: column;
+
   width: 100%;
   display: flex;
-  flex-direction: column;
+  flex-direction: var(--list-flex-direction);
+  flex-wrap: wrap;
   gap: 24px;
 }
 
 .expenseList h1 {
   font-size: 48px;
+}
+
+.dateGroup {
+  --date-group-padding: 0px;
+  --date-group-box-shadow: none;
+
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: var(--date-group-padding);
+  box-shadow: var(--date-group-box-shadow);
+  border-radius: 8px;
 }
 
 .dateContainer {
@@ -34,18 +32,6 @@
   padding: 0px 8px;
   border-left: solid 8px var(--olive);
   border-radius: 4px;
-}
-
-/* When viewing specific record */
-.expenseView {
-  width: 100%;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  padding: 24px;
-  gap: 64px;
-  min-height: 100vh;
-  margin-bottom: var(--navbar-height);
 }
 
 .buttonContainer {
@@ -73,4 +59,35 @@
   border: solid 1px var(--bright-red);
   background-color: var(--bright-red);
   filter: drop-shadow(0px 0px 3px var(--bright-red));
+}
+
+@media (min-width: 575.98px) {
+}
+
+@media (min-width: 767.98px) {
+}
+
+@media (min-width: 991.98px) {
+  .expenseList {
+    --list-flex-direction: row;
+  }
+  .dateGroup {
+    --date-group-padding: 8px;
+    --date-group-box-shadow: 2px 2px 3px var(--olive);
+    max-width: 500px;
+  }
+  .buttonContainer {
+    max-width: 500px;
+  }
+  .page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+@media (min-width: 1199.98px) {
+}
+
+@media (min-width: 1399.98px) {
 }

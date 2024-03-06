@@ -1,12 +1,7 @@
 .main {
-  display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  padding: 24px;
-  gap: 24px;
-  min-height: 100vh;
-  margin-bottom: var(--navbar-height);
 }
 
 .navbar {
@@ -24,7 +19,6 @@
 }
 
 .navbar a {
-  float: left;
   color: #f2f2f2;
   text-decoration: none;
   font-size: 24px;
@@ -64,4 +58,35 @@
 
 .userHeading h3 {
   color: var(--olive);
+}
+
+@media (min-width: 575.98px) {
+
+}
+
+@media (min-width: 767.98px) {
+
+}
+
+@media (min-width: 991.98px) {
+  .navbar {
+    z-index: 9;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    height: 100%;
+    width: var(--navbar-height);
+    position: fixed;
+    top: 0;
+    left: 0;
+    overflow-x: hidden;
+  }
+}
+
+@media (min-width: 1199.98px) {
+
+}
+
+@media (min-width: 1399.98px) {
+  
 }

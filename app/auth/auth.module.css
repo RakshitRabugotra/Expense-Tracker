@@ -1,13 +1,3 @@
-.page {
-  display: flex;
-  flex-direction: column;
-  padding: 24px;
-  min-height: 100vh;
-  gap: 24px;
-  align-items: center;
-  margin-bottom: var(--navbar-height);
-}
-
 .loginError {
   width: 100%;
   display: flex;

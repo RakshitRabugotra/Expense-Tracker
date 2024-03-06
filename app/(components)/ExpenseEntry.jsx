@@ -45,7 +45,7 @@ export default function ExpenseEntry({ expense, isLink }) {
   }
 
   return (
-    <Link href={isLink ? `/expenses/${expense.id}` : '#'}>
+    <Link href={isLink ? `/expenses/${expense.id}` : '#'} className="clickable">
       <div className={styles.expenseItem}>
         <div className={styles.expenseIcon}>
           {/* Show the icon dynamically */}
