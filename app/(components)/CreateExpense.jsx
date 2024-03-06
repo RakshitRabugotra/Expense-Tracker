@@ -3,25 +3,30 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import styles from "./form.module.css";
 import Heading from "./Heading";
 import Loader from "./Loader";
 
 export default function CreateExpense({ patch, expenseID, userID }) {
   const router = useRouter();
+
   // For the valid categories in the system
   const [categories, setCategories] = useState([]);
-
-  const [isLoading, setLoading] = useState(false);
-
-  // Fetch the expense itself
-  const [expense, setExpense] = useState(null);
-
   // The state variables for particular expense
   const [name, setName] = useState("");
   const [category, setCategory] = useState("");
   const [expenditure, setExpenditure] = useState(0);
+  // For the loading state of the form
+  const [isLoading, setLoading] = useState(false);
+  // For validation of the input
+  const isInputValid = useMemo(() => {
+    return expenditure > 0 && name;
+  }, [expenditure, name]);
+
+
+  // Fetch the expense itself
+  const [expense, setExpense] = useState(null);
 
   // Do this whenever dependency changes
   useEffect(() => {
@@ -151,7 +156,7 @@ export default function CreateExpense({ patch, expenseID, userID }) {
         />
         <span>Expenditure</span>
       </label>
-      <button type="submit" disabled={isLoading}>
+      <button type="submit" disabled={isLoading || !isInputValid}>
         {(patch ? "Update" : "Add") + " Expense"}
       </button>
     </form>
