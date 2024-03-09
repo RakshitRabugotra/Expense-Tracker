@@ -114,7 +114,10 @@
 }
 
 @media (min-width: 991.98px) {
-
+  .pieComponent {
+    --flex-direction:row;
+    --width: min-content;
+  } 
 }
 
 @media (min-width: 1199.98px) {
@@ -122,8 +125,5 @@
 }
 
 @media (min-width: 1399.98px) {
-  .pieComponent {
-    --flex-direction:row;
-    --width: min-content;
-  } 
+  
 }

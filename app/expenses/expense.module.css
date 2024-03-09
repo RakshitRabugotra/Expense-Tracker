@@ -19,7 +19,7 @@
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 4px;
   padding: var(--date-group-padding);
   box-shadow: var(--date-group-box-shadow);
   border-radius: 8px;
@@ -70,11 +70,13 @@
 @media (min-width: 991.98px) {
   .expenseList {
     --list-flex-direction: row;
+    align-items: center;
+    /* align-items: ; */
   }
   .dateGroup {
     --date-group-padding: 8px;
     --date-group-box-shadow: 2px 2px 3px var(--olive);
-    max-width: 500px;
+    max-width: calc(50% - 24px);
   }
   .buttonContainer {
     max-width: 500px;

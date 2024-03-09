@@ -4,7 +4,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { MdErrorOutline } from "react-icons/md";
 import { useState } from "react";
-import Form from "../(components)/Form";
+import Heading from "../(components)/Heading";
 import Loader from "../(components)/Loader";
 import styles from "./auth.module.css";
 
@@ -59,10 +59,8 @@ function LoginComponent({ router }) {
   // Else the form
   return (
     <>
-      <Form
-        heading={{ text: "Login", coloredText: "User" }}
-        submitHandler={handleLogin}
-      >
+      <Heading text={"Login"} coloredText={"User"} />
+      <form onSubmit={handleLogin} className="customForm">
         <label>
           <input
             required
@@ -90,7 +88,7 @@ function LoginComponent({ router }) {
         <button type="submit" disabled={isLoading}>
           {isLoading ? "Loading..." : "Login"}
         </button>
-      </Form>
+      </form>
       {/* The error on login icon */}
       <div
         style={{
@@ -171,13 +169,10 @@ function RegisterComponent({ router }) {
 
   return (
     <>
-      <Form
-        heading={{ text: "Register", coloredText: "User" }}
-        submitHandler={registerUser}
-        buttonText={{
-          loading: "Loading",
-          normal: "Register",
-        }}
+      <Heading text={"Register"} coloredText={"User"} />
+      <form
+        onSubmit={registerUser}
+        className="customForm"
       >
         <label htmlFor="fullname">
           <input
@@ -227,7 +222,7 @@ function RegisterComponent({ router }) {
         <button type="submit" disabled={isLoading || !isPasswordValid}>
           {isLoading ? "Loading..." : "Register"}
         </button>
-      </Form>
+      </form>
       {/* Is the user already registered? */}
       <div
         style={{

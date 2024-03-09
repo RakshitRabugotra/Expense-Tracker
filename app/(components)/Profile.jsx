@@ -2,7 +2,6 @@
 import { useMemo, useState } from "react";
 import Heading from "./Heading";
 import Link from "next/link";
-import Form from "./Form";
 
 export default function Profile({ user, children }) {
   const [userMonthly, setUserMonthly] = useState(user.monthly_limit);
@@ -44,9 +43,9 @@ export default function Profile({ user, children }) {
 
       <section>
         <h3>Preferences</h3>
-        <Form
-          submitHandler={updateMonthlyLimit}
-          buttonText={{ normal: "Save", loading: "Wait" }}
+        <form
+          onSubmit={updateMonthlyLimit}
+          className="customForm"
         >
           <label htmlFor={"monthly-limit"}>
             <input
@@ -65,7 +64,7 @@ export default function Profile({ user, children }) {
           <button type="submit" disabled={isLoading || !isChanged}>
             {isChanged ? (isLoading ? "Saving" : "Save") : "Saved"}
           </button>
-        </Form>
+        </form>
       </section>
 
       {/* The logout button */}

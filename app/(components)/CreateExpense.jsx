@@ -4,7 +4,6 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
-import styles from "./form.module.css";
 import Heading from "./Heading";
 import Loader from "./Loader";
 
@@ -123,8 +122,9 @@ export default function CreateExpense({ patch, expenseID, userID }) {
   if (categories.length === 0) return <Loader context={"categories"} />;
 
   return (
-    <form onSubmit={handleSubmit} className={styles.customForm}>
-      <Heading text={patch ? "Update" : "Add"} coloredText={"Expense"} />
+    <>
+    <Heading text={patch ? "Update" : "Add"} coloredText={"Expense"} />
+    <form onSubmit={handleSubmit} className="customForm">
 
       <label htmlFor="expense-name">
         <input
@@ -160,5 +160,6 @@ export default function CreateExpense({ patch, expenseID, userID }) {
         {(patch ? "Update" : "Add") + " Expense"}
       </button>
     </form>
+    </>
   );
 }

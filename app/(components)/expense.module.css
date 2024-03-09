@@ -29,12 +29,6 @@
   align-items: center;
 }
 
-.expenseExpenditure {
-  width: 40%;
-  display: flex;
-  flex-wrap: wrap;
-}
-
 .currencyWhole {
   font-size: 24px;
 }
@@ -50,7 +44,7 @@
 }
 
 .expenseInformation {
-  width: 40%;
+  width: 60%;
 }
 .expenseInformation > * {
   width: 100%;
@@ -75,10 +69,6 @@
 }
 
 @media (min-width: 991.98px) {
-  .expenseItem {
-    width: 100%;
-    min-width: 500px;
-  }
 }
 
 @media (min-width: 1199.98px) {
