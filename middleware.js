@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server";
+import { cookies } from "next/headers";
 
 export async function middleware(request) {
-  const session = request.cookies.get("session")?.value;
+  const session = cookies().get("session")?.value;
   const path = request.nextUrl.pathname;
 
   console.log("path: ", path);
@@ -38,6 +39,12 @@ export async function middleware(request) {
     });
     console.log("Logging out....");
     return res;
+  }
+
+  // If we're at /auth and still logged in, then redirect to home
+  if(path === "/auth") {
+    const sessionToken = request.cookies.get("session")?.value;
+    if(sessionToken) return NextResponse.redirect(new URL("/", request.url));
   }
 
   // If the session is not active and we're not at /auth
