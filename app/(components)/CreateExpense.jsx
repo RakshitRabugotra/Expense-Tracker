@@ -119,7 +119,7 @@ export default function CreateExpense({ patch, expenseID, userID }) {
 
     // Change the loading state and redirect to expenses
     setLoading(false);
-    router.replace("/expenses#" + expense.id);
+    router.replace("/expenses" + (patch ? "#" + expense.id : ""));
     // Reset the state
     setName("");
     setCategory(categories[0]);

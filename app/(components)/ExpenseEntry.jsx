@@ -71,32 +71,36 @@ function chooseComponent(category) {
   }
 }
 
-// To delete this record
-const handleDelete = (expenseId, router) => {
-  const res = fetch(
-    `https://expense-tracker.pockethost.io/api/collections/expenses/records/${expenseId}`,
-    { method: "DELETE" }
-  );
-  // Redirect to expenses
-  router.push("/expenses");
-  return res.status;
-};
-
-// To update this record
-const handleUpdate = (expenseId, router) => {
-  router.push(`/expenses/update/${expenseId}`);
-  return;
-};
-
 // The expense entry component
-export default function ExpenseEntry({ expense }) {
+export default function ExpenseEntry({ expense, isDisabled }) {
   // To toggle the menu of edit options
   const [showMenu, setShowMenu] = useState(false);
+  // To hide the current entry
+  const [isHidden, setHidden] = useState(false);
   // Get the icon component
-  const iconComponent = useMemo(() => chooseComponent(expense.category), [expense.category]);
+  const iconComponent = useMemo(
+    () => chooseComponent(expense.category),
+    [expense.category]
+  );
 
   // To navigate here and there
   const router = useRouter();
+
+  // To delete this record
+  const handleDelete = (expenseId) => {
+    const res = fetch(
+      `https://expense-tracker.pockethost.io/api/collections/expenses/records/${expenseId}`,
+      { method: "DELETE" }
+    );
+    setHidden((prev) => true);
+    return res.status;
+  };
+
+  // To update this record
+  const handleUpdate = (expenseId, router) => {
+    router.push(`/expenses/update/${expenseId}`);
+    return;
+  };
 
   // To close the menu
   const ref = useRef(null);
@@ -114,10 +118,18 @@ export default function ExpenseEntry({ expense }) {
     };
   }, [ref]);
 
-
   return (
-    <div id={expense.id} className="clickable" onClick={(e) => setShowMenu((prev) => !prev)} ref={ref}>
-      <Expense expense={expense} iconComponent={iconComponent}/>
+    <div
+      id={expense.id}
+      style={{ display: isHidden ? "none" : "block" }}
+      className={"clickable"}
+      onClick={(e) => {
+        if (isDisabled) return;
+        return setShowMenu((prev) => !prev);
+      }}
+      ref={ref}
+    >
+      <Expense expense={expense} iconComponent={iconComponent} />
 
       {showMenu && (
         <div className={styles.editMenu}>
@@ -128,7 +140,7 @@ export default function ExpenseEntry({ expense }) {
             <AiFillEdit />
           </div>
           <div
-            onClick={() => handleDelete(expense.id, router)}
+            onClick={() => handleDelete(expense.id)}
             className={styles.deleteButton}
           >
             <MdDeleteForever />
