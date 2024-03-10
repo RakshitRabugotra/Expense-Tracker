@@ -1,6 +1,12 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 
+
+async function clearSession(response) {
+  return response;
+}
+
+
 export async function middleware(request) {
   const session = cookies().get("session")?.value;
   const path = request.nextUrl.pathname;
@@ -41,12 +47,6 @@ export async function middleware(request) {
     return res;
   }
 
-  // If we're at /auth and still logged in, then redirect to home
-  if(path === "/auth") {
-    const sessionToken = request.cookies.get("session")?.value;
-    if(sessionToken) return NextResponse.redirect(new URL("/", request.url));
-  }
-
   // If the session is not active and we're not at /auth
   if (!session && path !== "/auth") {
     const url = new URL("/auth", request.url);
@@ -57,7 +57,7 @@ export async function middleware(request) {
   // If the session is not active, go to the next page
   if (!session) {
     console.log("Session is not defined...");
-    return NextResponse.next();
+    // return NextResponse.redirect( new URL("/auth", request.url));
   }
 
   // Set a new expiration time for session

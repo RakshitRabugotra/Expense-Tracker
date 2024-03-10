@@ -20,6 +20,14 @@
   border-radius: 8px;
 }
 
+.expenseButton {
+  border-radius: 8px;
+  background-color: transparent;
+  text-align: left;
+  border: none;
+  transition: all 300ms cubic-bezier(1, 0, 0, 1);
+}
+
 .expenseIcon,
 .expenseExpenditure {
   width: 20%;
@@ -44,13 +52,14 @@
 }
 
 .expenseInformation {
+  --expense-font-size: calc((1vw + 1vh) * 1.21);
   width: 60%;
 }
 .expenseInformation > * {
   width: 100%;
 }
 .expenseInformation h4 {
-  font-size: 20px;
+  font-size: var(--expense-font-size);
 }
 
 .categoryContainer {
@@ -61,6 +70,37 @@
   line-height: 24px;
 }
 
+.editMenu {
+  width: 100%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 24px;
+  
+  padding: 8px;
+  transition: all 300ms ease;
+}
+
+.editMenu div {
+  width: 25%;
+  padding: 4px;
+  border-radius: var(--border-radius-8);
+  text-align: center;
+}
+
+.editButton {
+  background-color: var(--edit-blue);
+}
+.deleteButton {
+  background-color: var(--danger-red);
+}
+
+.editMenu svg {
+  display: block;
+  margin: auto;
+  font-size: var(--svg-size);
+  color: var(--off-white);
+}
 
 @media (min-width: 575.98px) {
 }
@@ -69,6 +109,12 @@
 }
 
 @media (min-width: 991.98px) {
+  .expenseInformation {
+    --expense-font-size: 18px;
+  }
+  .editMenu {
+    --svg-size: calc((1vw + 1vh) * 1.21);
+  }
 }
 
 @media (min-width: 1199.98px) {

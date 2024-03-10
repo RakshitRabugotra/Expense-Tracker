@@ -13,11 +13,14 @@
   --bright-red: #eb4848;
   --dark-red: #6f0000;
 
+  --danger-red: #d64d49;
+  --edit-blue: #54bddb;
+
   /* The color palette for the logo */
   --col-1: #272f51;
   --col-2: #06c8a1;
-  --col-3: #d0fff6;
   --col-4: #384373;
+  --col-3: #d0fff6;
   --col-5: #161b2f;
   --col-6: #09f8c8;
 
@@ -60,43 +63,14 @@ a {
   justify-content: flex-start;
   padding: 24px;
   gap: 24px;
-  min-height: 100vh;
   margin: var(--navbar-margin);
-}
-
-button,
-.redirect-links {
-  width: 100%;
-  padding: 16px 0px;
-  text-align: center;
-  border-radius: var(--border-radius-8);
-  font-size: 16px;
-  font-weight: bold;
-  color: var(--dark-green);
-  background-color: var(--light-green);
-  border: solid 1px #ddd;
-  transition: all 300ms ease;
-  filter: drop-shadow(0px 0px 3px var(--light-green));
+  min-height: minmax(fit-content, 100vh);
 }
 
 .clickable {
   transition: all 300ms ease;
   padding: 8px 0px;
   border-radius: 8px;
-}
-
-button:active,
-.redirect-links:active,
-.clickable:active {
-  transform: scale(0.98);
-  /* Scaling button to 0.98 to its original size */
-  box-shadow: 3px 2px 22px 1px rgba(0, 0, 0, 0.24);
-  /* Lowering the shadow */
-}
-button:disabled {
-  color: var(--off-white);
-  background-color: var(--dark);
-  filter: drop-shadow(0px 0px 3px var(--dark));
 }
 
 .redirect-links {
@@ -143,7 +117,7 @@ button:disabled {
 .customForm input::placeholder {
   opacity: 0;
 }
-.customForm span {
+.customForm label span {
   position: absolute;
   top: 0;
   left: 24px;
@@ -156,7 +130,34 @@ button:disabled {
   user-select: none;
 }
 
-.customForm button:disabled {
+.customForm button,
+.button,
+.redirect-links {
+  width: 100%;
+  padding: 16px 0px;
+  text-align: center;
+  border-radius: var(--border-radius-8);
+  font-size: 16px;
+  font-weight: bold;
+  color: var(--dark-green);
+  background-color: var(--light-green);
+  border: solid 1px #ddd;
+  transition: all 300ms ease;
+  filter: drop-shadow(0px 0px 3px var(--light-green));
+}
+
+.customForm button:active,
+.button:active,
+.redirect-links:active,
+.clickable:active {
+  transform: scale(0.98);
+  /* Scaling button to 0.98 to its original size */
+  box-shadow: 3px 2px 22px 1px rgba(0, 0, 0, 0.24);
+  /* Lowering the shadow */
+}
+
+.customForm button:disabled,
+.button:disabled {
   color: var(--off-white);
   background-color: var(--dark);
   filter: drop-shadow(0px 0px 3px var(--dark));
@@ -169,6 +170,12 @@ button:disabled {
   transform: translateY(0px);
   z-index: 1;
   background-color: var(--off-white);
+}
+
+.formHolder {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
 }
 
 /* @media (prefers-color-scheme: dark) {
@@ -185,21 +192,26 @@ button:disabled {
 } */
 
 @media (min-width: 575.98px) {
-}
-
-@media (min-width: 767.98px) {
-}
-
-@media (min-width: 991.98px) {
-  :root {
-    --navbar-margin: 0px 0px 0px var(--navbar-height);
+  .formHolder {
+    min-width: 500px;
   }
-  .customForm {
+  .customForm,
+  .redirect-links {
     max-width: 500px;
   }
   .page {
     align-items: center;
   }
+}
+
+@media (min-width: 767.98px) {
+  :root {
+    --navbar-margin: 0px 0px 0px var(--navbar-height);
+  }
+}
+
+@media (min-width: 991.98px) {
+  
 }
 
 @media (min-width: 1199.98px) {

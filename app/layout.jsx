@@ -9,7 +9,6 @@ import { IoReceiptSharp } from "react-icons/io5";
 import { IoMdAddCircle } from "react-icons/io";
 import { MdAccountCircle } from "react-icons/md";
 import { IoStatsChart } from "react-icons/io5";
-import { cookies } from "next/headers";
 
 export const metadata = {
   title: "Expense Tracker",

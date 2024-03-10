@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import Heading from "./Heading";
 import Loader from "./Loader";
+import moment from "moment";
 
 export default function CreateExpense({ patch, expenseID, userID }) {
   const router = useRouter();
@@ -16,6 +17,7 @@ export default function CreateExpense({ patch, expenseID, userID }) {
   const [name, setName] = useState("");
   const [category, setCategory] = useState("");
   const [expenditure, setExpenditure] = useState(0);
+  const [expenseDate, setExpenseDate] = useState(moment.utc().format("YYYY-MM-DD"));
   // For the loading state of the form
   const [isLoading, setLoading] = useState(false);
   // For validation of the input
@@ -66,8 +68,12 @@ export default function CreateExpense({ patch, expenseID, userID }) {
   useEffect(() => {
     // Set the variables to this value
     setName(expense?.name);
-    setCategory(expense?.category);
+    setCategory(prev => expense?.category);
     setExpenditure(expense?.expenditure);
+    setExpenseDate((prev) => {
+      const datetime = expense?.expense_date;
+      return moment.utc(datetime).format("YYYY-MM-DD");
+    })
   }, [expense]);
 
   const handleSubmit = (e) => {
@@ -95,6 +101,11 @@ export default function CreateExpense({ patch, expenseID, userID }) {
           : category,
       expenditure: expenditure,
       user_id: userID,
+      expense_date: (() => {
+        const date = new Date(expenseDate);
+        date.setHours(23, 59, 59);
+        return moment.utc(date);
+      })(),
     };
 
     // Send the required request to the destined path
@@ -108,7 +119,7 @@ export default function CreateExpense({ patch, expenseID, userID }) {
 
     // Change the loading state and redirect to expenses
     setLoading(false);
-    router.replace("/expenses");
+    router.replace("/expenses#" + expense.id);
     // Reset the state
     setName("");
     setCategory(categories[0]);
@@ -122,22 +133,24 @@ export default function CreateExpense({ patch, expenseID, userID }) {
   if (categories.length === 0) return <Loader context={"categories"} />;
 
   return (
-    <>
+    <div className="page">
     <Heading text={patch ? "Update" : "Add"} coloredText={"Expense"} />
     <form onSubmit={handleSubmit} className="customForm">
 
       <label htmlFor="expense-name">
         <input
+          required
           type="text"
           placeholder="Expense Name"
           value={name}
           name="expense-name"
+          maxLength={22}
           onChange={(e) => setName(e.target.value)}
         />
         <span>Expense Name</span>
       </label>
 
-      <select name="category" onChange={(e) => setCategory(e.target.value)}>
+      <select required name="category" onChange={(e) => setCategory(e.target.value)}>
         {categories.map((cat, index) => {
           return (
             <option value={cat} key={index}>
@@ -149,6 +162,7 @@ export default function CreateExpense({ patch, expenseID, userID }) {
 
       <label htmlFor="expenditure">
         <input
+          required
           type="number"
           placeholder="Expenditure"
           value={expenditure}
@@ -156,10 +170,21 @@ export default function CreateExpense({ patch, expenseID, userID }) {
         />
         <span>Expenditure</span>
       </label>
+
+      <label htmlFor="expense-date">
+        <input
+          type="date"
+          value={expenseDate}
+          placeholder="Expense Date"
+          onChange={(e) => setExpenseDate(e.target.value)}
+        />
+        <span>Date</span>
+      </label>
+
       <button type="submit" disabled={isLoading || !isInputValid}>
         {(patch ? "Update" : "Add") + " Expense"}
       </button>
     </form>
-    </>
+    </div>
   );
 }

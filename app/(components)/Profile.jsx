@@ -2,6 +2,7 @@
 import { useMemo, useState } from "react";
 import Heading from "./Heading";
 import Link from "next/link";
+import Loader from "./Loader";
 
 export default function Profile({ user, children }) {
   const [userMonthly, setUserMonthly] = useState(user.monthly_limit);
@@ -41,7 +42,7 @@ export default function Profile({ user, children }) {
 
       {/* To change the monthly limit */}
 
-      <section>
+      <section className="formHolder">
         <h3>Preferences</h3>
         <form
           onSubmit={updateMonthlyLimit}

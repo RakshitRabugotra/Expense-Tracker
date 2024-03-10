@@ -9,31 +9,35 @@ import Loader from "../(components)/Loader";
 import styles from "./auth.module.css";
 
 function loginUser({ email, password, router }) {
-  let success = true;
   let token = null;
 
-  fetch(process.env.SERVER + "/api/collections/users/auth-with-password", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      identity: email,
-      password: password,
-    }),
-  })
-    .then((response) => {
-      if (response.status === 200) return response.json();
+  return fetch(
+    process.env.SERVER + "/api/collections/users/auth-with-password",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        identity: email,
+        password: password,
+      }),
+    }
+  )
+    .then((resp) => {
+      if (resp.status === 200) {
+        return resp.json();
+      }
+      if (resp.status === 400) throw new Error("Network Error");
     })
     .then((json) => {
-      success = true;
       token = json.token;
       router.replace(`/login?token=${token}`);
+      return { code: 200 };
     })
-    .catch((error) => {
+    .catch((resp) => {
       // We've a failed authentication
-      console.log(error.statusText);
-      return success;
+      return { code: 400 };
     });
 }
 
@@ -46,9 +50,12 @@ function LoginComponent({ router }) {
   const handleLogin = (e) => {
     e.preventDefault();
     setLoading(true);
-    const success = loginUser({ email, password, router });
-    setLoginSuccess(success);
-    if (!success) {
+
+    Promise.resolve(loginUser({ email, password, router })).then(result => {
+      setLoginSuccess(result?.code !== 400);
+    })
+
+    if (!loginSuccess) {
       setPassword("");
     }
     setLoading(false);
@@ -85,20 +92,21 @@ function LoginComponent({ router }) {
           <span>Password</span>
         </label>
 
+        {/* The error on login icon */}
+        <div
+          style={{
+            visibility: loginSuccess ? "hidden" : "visible",
+          }}
+          className={styles.loginError}
+        >
+          <MdErrorOutline />
+          <span>Invalid Credentials</span>
+        </div>
+
         <button type="submit" disabled={isLoading}>
           {isLoading ? "Loading..." : "Login"}
         </button>
       </form>
-      {/* The error on login icon */}
-      <div
-        style={{
-          visibility: loginSuccess ? "hidden" : "visible",
-        }}
-        className={styles.loginError}
-      >
-        <MdErrorOutline />
-        <span>Invalid Credentials</span>
-      </div>
       <Link className="redirect-links" href="?register=true">
         Register Instead
       </Link>
@@ -170,10 +178,7 @@ function RegisterComponent({ router }) {
   return (
     <>
       <Heading text={"Register"} coloredText={"User"} />
-      <form
-        onSubmit={registerUser}
-        className="customForm"
-      >
+      <form onSubmit={registerUser} className="customForm">
         <label htmlFor="fullname">
           <input
             required

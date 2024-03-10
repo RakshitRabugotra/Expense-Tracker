@@ -1,4 +1,3 @@
-import styles from "./profile.module.css";
 import Profile from "../(components)/Profile";
 import { cookies } from "next/headers";
 import { getUser } from "../(lib)/auth";

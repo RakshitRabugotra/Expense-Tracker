@@ -1,45 +1,35 @@
-/* Loader */
-/* HTML: <div class="loader"></div> */
 .loader {
+
+  --_color: var(--fade-green);
+
   width: 64px;
-  aspect-ratio: 1;
-  display: grid;
-  border: 6px solid #0000;
-  border-radius: 50%;
-  border-right-color: var(--olive);
-  animation: l15 1s infinite linear;
+  aspect-ratio: 1.154;
+  --_g: no-repeat radial-gradient(farthest-side, var(--_color) 90%,#0000);
+  background: 
+    var(--_g) 50%  0,
+    var(--_g) 0    100%,
+    var(--_g) 100% 100%;
+  background-size: 35% calc(35%*1.154);
+  animation: l16 1s infinite;
 }
-.loader::before,
-.loader::after {
-  content: "";
-  grid-area: 1/1;
-  margin: 2px;
-  border: inherit;
-  border-radius: 50%;
-  animation: l15 2s infinite;
-}
-.loader::after {
-  margin: 8px;
-  animation-duration: 3s;
-}
-@keyframes l15 {
-  100% {
-    transform: rotate(1turn);
-  }
+@keyframes l16{ 
+    50%,100% {background-position: 100% 100%,50% 0,0 100%} 
 }
 
 /* Loading Page */
 .loadingPage {
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
-  gap: 32px;
-  font-size: 24px;
+  align-items: center;
+  padding: 24px;
+  gap: 24px;
+  min-height: 100vh;
 }
 
 .loadingPage h1 {
-  animation: changeColor infinite 3s ease-in-out;
+  font-size: 56px;
+  animation: changeColor infinite 2s cubic-bezier(0.445, 0.05, 0.55, 0.95);
 }
 
 .loadingPage h1 span {
@@ -49,13 +39,10 @@
 }
 
 @keyframes changeColor {
-  0% {
-    color: var(--olive);
-  }
   50% {
     color: var(--dark-green);
   }
-  100% {
+  100%, 0% {
     color: var(--olive);
   }
 }
