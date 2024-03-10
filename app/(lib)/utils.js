@@ -1,22 +1,31 @@
 import moment from "moment";
 
 // Currency formatter
-export const currencyFormatter = new Intl.NumberFormat('en-IN', {
-  style: 'currency',
-  currency: 'INR'
+export const currencyFormatter = new Intl.NumberFormat("en-IN", {
+  style: "currency",
+  currency: "INR",
 });
 
 // Number of days in this month
-export const daysInCurrentMonth = () => new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0).getDate();
+export const daysInCurrentMonth = () =>
+  new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0).getDate();
 
 // Number of days left in this month
-export const daysLeftInThisMonth = () => daysInCurrentMonth() - new Date().getDate();
+export const daysLeftInThisMonth = () =>
+  daysInCurrentMonth() - new Date().getDate();
 
 export const getExpenseToday = async (userID) => {
-  const today = moment.utc().format("YYYY-MM-DD");
+  const today = new Date();
+  // Start of the day
+  today.setHours(0, 0, 0);
+  const startOfDay = moment.utc(today).format("YYYY-MM-DD HH:MM:SS");
+  // End of the day
+  today.setHours(23, 59, 59);
+  const endOfDay = moment.utc(today).format("YYYY-MM-DD HH:MM:SS");
+
   // Send a fetch request for particular date
   const params = "/api/collections/expenses/records?page=1&perPage=50";
-  const filter = `&filter=(created~'${today}'%26%26user_id='${userID}')`;
+  const filter = `&filter=(created>='${startOfDay}'%26%26created<='${endOfDay}'%26%26user_id='${userID}')`;
   // Send the fetch request
   const res = await fetch(process.env.SERVER + params + filter, {
     cache: "no-store",
@@ -42,7 +51,6 @@ export const getExpenseThisMonth = async (userID) => {
   const params = "/api/collections/expenses/records?page=1&perPage=50";
   const filter = `&filter=(created>='${monthStart}'%26%26created<='${monthEnd}'%26%26user_id='${userID}')`;
   // Send the fetch request
-  console.log(process.env.SERVER + params + filter);
   const res = await fetch(process.env.SERVER + params + filter, {
     cache: "no-cache",
   });
@@ -51,7 +59,6 @@ export const getExpenseThisMonth = async (userID) => {
   // Return the items
   return data?.items;
 };
-
 
 // Function to group certain elements in an listect by a key
 export function groupBy(list, keyGetter) {
