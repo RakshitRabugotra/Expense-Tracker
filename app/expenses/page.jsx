@@ -11,7 +11,7 @@ import moment from "moment";
 // Utility functions
 async function getExpenses(userID) {
   const params = "/api/collections/expenses/records?page=1&perPage=30";
-  const sort = "&sort=-created,id";
+  const sort = "&sort=-expense_date,id";
   const filter = `&filter=(user_id='${userID}')`;
 
   const res = await fetch(
@@ -44,10 +44,10 @@ const ExpenseList = ({ expenses }) => {
   // If we don't have any expenses
   if (expenses.length === 0) {
     return (
-      <div className={styles.expensePage}>
+      <div className="page">
         <Heading text={"Your"} coloredText={"Expenses"} />
         <div className={styles.expenseList}>
-          <ExpenseEntry expense={noExpense} isLink={false}/>
+          <ExpenseEntry expense={noExpense} isButton={false}/>
         </div>
       </div>
     );
@@ -55,7 +55,7 @@ const ExpenseList = ({ expenses }) => {
 
   // Group expenses by their dates (not their exact times)
   const groupedExpenses = groupBy(expenses, (expense) => {
-    const dateObj = moment.utc(expense.created).toDate();
+    const dateObj = moment.utc(expense.expense_date).toDate();
     const month = dateObj.toLocaleString("default", { month: "short" });
     const day = dateObj.toLocaleString("default", { day: "2-digit" });
     const year = dateObj.toLocaleDateString("default", { year: "2-digit" });
@@ -71,7 +71,7 @@ const ExpenseList = ({ expenses }) => {
       <div className={styles.dateGroup}>
         <div className={styles.dateContainer}>{date}</div>
         {expenses.map((expense, index) => {
-          return <ExpenseEntry expense={expense} key={index} isLink={true} />;
+          return <ExpenseEntry expense={expense} key={index} isButton={true} />;
         })}
       </div>
     );

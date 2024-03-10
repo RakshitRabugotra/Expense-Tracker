@@ -7,8 +7,6 @@ export default async function UpdateExpense({ params }) {
   const { record, tokenJWT } = await getUser(token);
 
   return (
-    <div className="page">
-      <CreateExpense patch={true} expenseID={params.id} userID={record.id} />
-    </div>
+    <CreateExpense patch={true} expenseID={params.id} userID={record.id} />
   );
 }

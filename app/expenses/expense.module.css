@@ -1,10 +1,9 @@
 .expenseList {
-  --list-flex-direction: column;
-
+  --expense-list-template-columns: 1fr;
   width: 100%;
-  display: flex;
-  flex-direction: var(--list-flex-direction);
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: var(--expense-list-template-columns);
+  grid-auto-rows: minmax(fit-content, auto);
   gap: 24px;
 }
 
@@ -23,6 +22,7 @@
   padding: var(--date-group-padding);
   box-shadow: var(--date-group-box-shadow);
   border-radius: 8px;
+  height: 100%;
 }
 
 .dateContainer {
@@ -69,14 +69,11 @@
 
 @media (min-width: 991.98px) {
   .expenseList {
-    --list-flex-direction: row;
-    align-items: center;
-    /* align-items: ; */
+    --expense-list-template-columns: repeat(2, 1fr)
   }
   .dateGroup {
     --date-group-padding: 8px;
     --date-group-box-shadow: 2px 2px 3px var(--olive);
-    max-width: calc(50% - 24px);
   }
   .buttonContainer {
     max-width: 500px;
