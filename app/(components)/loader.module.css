@@ -16,6 +16,22 @@
     50%,100% {background-position: 100% 100%,50% 0,0 100%} 
 }
 
+/* Progress Loader */
+.progressLoader {
+  width: 124px;
+  height: 24px;
+  -webkit-mask: 
+    conic-gradient(from 135deg at top   ,#0000,#000 .5deg 90deg,#0000 90.5deg) 0 0   ,
+    conic-gradient(from -45deg at bottom,#0000,#000 .5deg 90deg,#0000 90.5deg) 0 100%;
+  -webkit-mask-size:25% 50%;
+  -webkit-mask-repeat:repeat-x;
+  background: linear-gradient(var(--olive) 0 0) left/0% 100% no-repeat #ddd;
+  animation: l13 2s infinite linear;
+}
+@keyframes l13 {
+  100% {background-size: 100% 100%}
+}
+
 /* Loading Page */
 .loadingPage {
   display: flex;
@@ -29,6 +45,7 @@
 
 .loadingPage h1 {
   font-size: 56px;
+  text-transform: capitalize;
   animation: changeColor infinite 2s cubic-bezier(0.445, 0.05, 0.55, 0.95);
 }
 
