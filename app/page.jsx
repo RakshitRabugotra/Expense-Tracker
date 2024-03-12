@@ -1,7 +1,7 @@
 import styles from "./page.module.css";
 import Heading from "./(components)/Heading";
 import ExpensePie from "./(components)/ExpensePie";
-import { groupBy, arraySum, getExpenseToday} from "./(lib)/utils";
+import { getCategorizedExpenses, getExpenseToday} from "./(lib)/utils";
 import { cookies } from "next/headers";
 import { getUser } from "./(lib)/auth";
 
@@ -13,15 +13,10 @@ export default async function Home() {
 
   // Get today's expenses
   const expenses = await getExpenseToday(record.id);
-  
+  // Get expenses grouped by their categories
+  const categorizedExpenditure = await getCategorizedExpenses(expenses);  
+  // Get the username of the client
   const username = record.name.split(" ")[0];
-  // Group the expenses by their category
-  const groupedExpenses = groupBy(expenses, (expense) => expense.category);
-  // Create a new object containing these pairs
-  const categorizedExpenditure = {};
-  groupedExpenses.forEach((expenses, category) => {
-    categorizedExpenditure[category] = arraySum(expenses, (expense) => expense.expenditure);
-  });
 
   return (
     <main className={`page ${styles.main}`}>
