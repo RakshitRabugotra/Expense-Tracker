@@ -46,6 +46,7 @@ export default function middleware(request) {
     res.cookies.set("session", "", {
       expires: new Date(0),
       httpOnly: true,
+      sameSite: "lax"
     });
     applySetCookie(request, res);
     return res;
@@ -65,6 +66,7 @@ export default function middleware(request) {
     res.cookies.set("session", authToken, {
       expires: new Date(Date.now() + 7 * 86_400_000),
       httpOnly: true,
+      sameSite: "lax"
     });
     // Apply the cookies
     applySetCookie(request, res);
@@ -87,6 +89,7 @@ export default function middleware(request) {
       expires: new Date(Date.now() + 7 * 86_400_000),
       httpOnly: true,
       path: "/",
+      sameSite: "lax"
     });
     // Apply those cookies to the request
     applySetCookie(request, res);
