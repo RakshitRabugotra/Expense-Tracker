@@ -41,6 +41,20 @@ function loginUser({ email, password, router }) {
     });
 }
 
+function FormError({ trigger, message }) {
+  return (
+    <div
+      style={{
+        visibility: !trigger ? "hidden" : "visible",
+      }}
+      className={styles.loginError}
+    >
+      <MdErrorOutline />
+      <span>{message}</span>
+    </div>
+  );
+}
+
 function LoginComponent({ router }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -51,9 +65,9 @@ function LoginComponent({ router }) {
     e.preventDefault();
     setLoading(true);
 
-    Promise.resolve(loginUser({ email, password, router })).then(result => {
+    Promise.resolve(loginUser({ email, password, router })).then((result) => {
       setLoginSuccess(result?.code !== 400);
-    })
+    });
 
     if (!loginSuccess) {
       setPassword("");
@@ -93,15 +107,7 @@ function LoginComponent({ router }) {
         </label>
 
         {/* The error on login icon */}
-        <div
-          style={{
-            visibility: loginSuccess ? "hidden" : "visible",
-          }}
-          className={styles.loginError}
-        >
-          <MdErrorOutline />
-          <span>Invalid Credentials</span>
-        </div>
+        <FormError trigger={!loginSuccess} message={"Invalid Credentials"} />
 
         <button type="submit" disabled={isLoading}>
           {isLoading ? "Loading..." : "Login"}
