@@ -88,13 +88,6 @@
   text-align: center;
 }
 
-.editButton {
-  background-color: var(--edit-blue);
-}
-.deleteButton {
-  background-color: var(--danger-red);
-}
-
 .editMenu svg {
   display: block;
   margin: auto;
@@ -155,9 +148,9 @@
   font-size: 16px;
   font-weight: bold;
   color: var(--dark-green);
-  background-color: var(--light-green);
-  border: solid 1px var(--light-green);
-  filter: drop-shadow(0px 0px 3px var(--light-green));
+  background-color: var(--olive);
+  border: solid 1px var(--olive);
+  filter: drop-shadow(0px 0px 3px var(--olive));
 }
 
 .deleteButton {
@@ -194,7 +187,7 @@
     --expense-font-size: 18px;
   }
   .editMenu {
-    --svg-size: calc((1vw + 1vh) * 1.21);
+    --svg-size: calc(1vw + 1vh);
   }
 }
 

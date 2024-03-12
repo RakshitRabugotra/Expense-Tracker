@@ -135,7 +135,7 @@ export default function ExpenseEntry({ expense, isDisabled }) {
         <div className={styles.editMenu}>
           <div
             onClick={() => handleUpdate(expense.id, router)}
-            className={styles.editButton}
+            className={styles.updateButton}
           >
             <AiFillEdit />
           </div>
