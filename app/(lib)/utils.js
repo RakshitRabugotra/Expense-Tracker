@@ -18,14 +18,15 @@ export const getExpenseToday = async (userID) => {
   const today = new Date();
   // Start of the day
   today.setHours(0, 0, 0);
-  const startOfDay = moment.utc(today).format("YYYY-MM-DD HH:MM:SS");
+  const startOfDay = moment(today).format("YYYY-MM-DD HH:MM:SS");
+
   // End of the day
   today.setHours(23, 59, 59);
-  const endOfDay = moment.utc(today).format("YYYY-MM-DD HH:MM:SS");
+  const endOfDay = moment(today).format("YYYY-MM-DD HH:MM:SS");
 
   // Send a fetch request for particular date
   const params = "/api/collections/expenses/records?page=1&perPage=50";
-  const filter = `&filter=(created>='${startOfDay}'%26%26created<='${endOfDay}'%26%26user_id='${userID}')`;
+  const filter = `&filter=(expense_date>='${startOfDay}'%26%26expense_date<='${endOfDay}'%26%26user_id='${userID}')`;
   // Send the fetch request
   const res = await fetch(process.env.SERVER + params + filter, {
     cache: "no-store",
@@ -49,7 +50,7 @@ export const getExpenseThisMonth = async (userID) => {
   ).toISOString();
 
   const params = "/api/collections/expenses/records?page=1&perPage=50";
-  const filter = `&filter=(created>='${monthStart}'%26%26created<='${monthEnd}'%26%26user_id='${userID}')`;
+  const filter = `&filter=(expense_date>='${monthStart}'%26%26expense_date<='${monthEnd}'%26%26user_id='${userID}')`;
   // Send the fetch request
   const res = await fetch(process.env.SERVER + params + filter, {
     cache: "no-cache",
