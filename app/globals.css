@@ -32,7 +32,7 @@
 
   /* The height of the navbar */
   --navbar-internal-height: 72px;
-  --navbar-round-margin: 4px;
+  --navbar-round-margin: 6px;
   --navbar-height: calc(var(--navbar-internal-height) + var(--navbar-round-margin));
   --navbar-margin: 0px 0px var(--navbar-height) 0px;
   --navbar-border-radius: 32px;
