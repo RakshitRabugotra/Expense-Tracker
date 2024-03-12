@@ -207,6 +207,16 @@ function RegisterComponent({ router }) {
           />
           <span>E-mail</span>
         </label>
+
+        {/* Password validation */}
+        <PasswordChecklist
+          rules={["minLength", "specialChar", "number", "capital", "match"]}
+          minLength={8}
+          value={password}
+          valueAgain={passwordRep}
+          onChange={setPasswordValid}
+        />
+
         <label htmlFor="password">
           <input
             required
@@ -230,28 +240,13 @@ function RegisterComponent({ router }) {
           <span>Repeat Password</span>
         </label>
 
+        {/* The error on login icon */}
+        <FormError trigger={!registerSuccess} message={"User already exists"} />
+
         <button type="submit" disabled={isLoading || !isPasswordValid}>
           {isLoading ? "Loading..." : "Register"}
         </button>
       </form>
-      {/* Is the user already registered? */}
-      <div
-        style={{
-          visibility: registerSuccess ? "hidden" : "visible",
-        }}
-        className={styles.loginError}
-      >
-        <MdErrorOutline />
-        <span>User already registered — Login</span>
-      </div>
-      {/* Password validation */}
-      <PasswordChecklist
-        rules={["minLength", "specialChar", "number", "capital", "match"]}
-        minLength={8}
-        value={password}
-        valueAgain={passwordRep}
-        onChange={setPasswordValid}
-      />
       <Link className="redirect-links" href="/auth">
         Login Instead
       </Link>
