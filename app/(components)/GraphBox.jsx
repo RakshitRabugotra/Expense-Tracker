@@ -10,7 +10,7 @@ function getMonthNumberFromName(monthName) {
 const getMonthlyExpenses = async({year, monthStart, monthEnd}) => {
   // Set the path and filter for the month
   const path = "/api/collections/expenses/records?page=1&perPage=30";
-  const filter = `&filter=(created<'${year}-${monthStart}-01'&&created >='${year}-${monthEnd}-01')`;
+  const filter = `&filter=(expense_date<'${year}-${monthStart}-01'&&expense_date >='${year}-${monthEnd}-01')`;
   // Send the fetch request
   console.log(process.env.SERVER + path + filter);
   const res = await fetch(path + filter, {
