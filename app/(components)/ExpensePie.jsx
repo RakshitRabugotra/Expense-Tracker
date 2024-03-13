@@ -9,18 +9,10 @@ import {
   daysLeftInThisMonth,
   getExpenseToday,
   getExpenseThisMonth,
+  COLORS
 } from "../(lib)/utils";
 
 ChartJS.register(ArcElement, Tooltip);
-
-const colors = [
-  "#fe2e55",
-  "#33a4db",
-  "#fe9600",
-  "#fecf01",
-  "#1775fe",
-  "#c7c6cb",
-];
 
 const options = {
   plugins: {},
@@ -84,7 +76,7 @@ export default function ExpensePie({ categorizedExpenditure, user }) {
       datasets: [
         {
           data: isEmpty ? [100] : values,
-          backgroundColor: isEmpty ? colors.slice(-1) : colors,
+          backgroundColor: isEmpty ? COLORS.slice(-1) : COLORS,
         },
       ],
     });
@@ -96,14 +88,14 @@ export default function ExpensePie({ categorizedExpenditure, user }) {
     });
     // Set the new color map
     const tempMap = new Map();
-    for (let i = 0; i < Math.min(keys.length, colors.length); i++) {
-      tempMap.set(keys[i], [colors[i], values[i] / totalExpenditure]);
+    for (let i = 0; i < Math.min(keys.length, COLORS.length); i++) {
+      tempMap.set(keys[i], [COLORS[i], COLORS[i] / totalExpenditure]);
     }
     setColorMap(tempMap);
   }, [categorizedExpenditure]);
 
   return (
-    <div className={styles.pieComponent}>
+    <div className="card">
       <div className={styles.pieGroup}>
         <h3>{"Today's Expense"}</h3>
         <div className={styles.pieChart}>

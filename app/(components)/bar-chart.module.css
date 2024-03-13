@@ -1,0 +1,54 @@
+.barChart {
+  --chart-width: calc(100vw - 4 * 24px);
+
+  width: var(--chart-width);
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin: 24px 0px;
+}
+
+.categoryBar {
+  --border-radius-right: var(--border-radius-8);
+  --border-radius-left: calc(var(--border-radius-right) / 2);
+
+  display: inline-flex;
+  position: relative;
+  font-size: 14px;
+  font-weight: bold;
+  text-transform: capitalize;
+
+  /* Background color is set by the js */
+  padding: 16px;
+  border-radius: var(--border-radius-left) var(--border-radius-right)
+    var(--border-radius-right) var(--border-radius-left);
+}
+
+.categoryBar span {
+  position: absolute;
+  top: 0;
+  left: 4px;
+  transform: translateY(-50%);
+  padding: 0px 4px;
+  border-radius: 8px;
+  text-wrap: nowrap;
+  background: rgba(0 0 0 / 75%);
+}
+
+@media (min-width: 575.98px) {
+  .barChart {
+    --chart-width: calc(50vw - 4 * 24px - var(--navbar-height))
+  }
+}
+
+@media (min-width: 767.98px) {
+}
+
+@media (min-width: 991.98px) {
+}
+
+@media (min-width: 1199.98px) {
+}
+
+@media (min-width: 1399.98px) {
+}

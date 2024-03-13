@@ -1,5 +1,15 @@
 import moment from "moment";
 
+// The colors used in graphs
+export const COLORS = [
+  "#fe2e55",
+  "#33a4db",
+  "#fe9600",
+  "#fecf01",
+  "#1775fe",
+  "#c7c6cb",
+];
+
 // Currency formatter
 export const currencyFormatter = new Intl.NumberFormat("en-IN", {
   style: "currency",

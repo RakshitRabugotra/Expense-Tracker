@@ -1,5 +1,7 @@
 "use client";
 import CountUp from "react-countup";
+import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
 
 export default function AnimCountUp({
   start,
@@ -9,7 +11,21 @@ export default function AnimCountUp({
   delay,
   useEasing,
   prefix,
+  currencySymbol,
+  counterWrapperClass,
+  styleClass,
+  monthlyLimit
 }) {
+
+  const [color, setColor] = useState("#fff");
+
+  useEffect(() => {
+    const ratio = end/monthlyLimit;
+    if(ratio < 0.34) setColor("green");
+    else if(ratio < 0.66) setColor("yellow");
+    else setColor("red");
+  }, [end, monthlyLimit]);
+
   return (
     <CountUp
       start={start}
@@ -18,12 +34,22 @@ export default function AnimCountUp({
       decimals={decimals}
       delay={delay}
       useEasing={useEasing}
+      prefix={currencySymbol}
     >
       {({ countUpRef }) => {
         return (
-          <div>
-            <h6>{prefix}</h6>
-            <span ref={countUpRef} />
+          <div className={styleClass}>
+            <h3>{prefix}</h3>
+            <motion.div
+              initial={{ backgroundColor: "#fff", opacity: 0 }}
+              animate={{ backgroundColor: color, opacity: 1 }}
+              exit={{ backgroundColor: "#fff", opacity: 0 }}
+              transition={{ ease: "easeOut", duration: 0.75 }}
+              className={counterWrapperClass}
+              style={{boxShadow: `0px 0px 1rem ${color}`}}
+            >
+              <span ref={countUpRef} />
+            </motion.div>
           </div>
         );
       }}
