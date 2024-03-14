@@ -18,6 +18,7 @@ export default function AnimCountUp({
   styleClass,
 }) {
   const [color, setColor] = useState("#fff");
+  const [countEnd, setCountEnd] = useState(end);
 
   // The color of the counter will be calculated like this
   const counterColor = useMemo(() => {
@@ -55,12 +56,16 @@ export default function AnimCountUp({
   // Change the counter color whenever it's calculated
   useEffect(() => {
     setColor((prev) => counterColor);
-  }, [counterColor]);
+  }, [counterColor]); 
+
+  useEffect(() => {
+    setCountEnd(end);
+  }, [end]);
 
   return (
     <CountUp
       start={start}
-      end={end}
+      end={countEnd}
       duration={duration}
       decimals={decimals}
       delay={delay}
