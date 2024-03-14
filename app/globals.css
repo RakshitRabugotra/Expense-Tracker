@@ -243,6 +243,9 @@ a {
     --navbar-round-margin: 0px;
     --navbar-border-radius: 0px;
   }
+  .card h3 {
+    font-size: 28px;
+  }
 }
 
 @media (min-width: 991.98px) {

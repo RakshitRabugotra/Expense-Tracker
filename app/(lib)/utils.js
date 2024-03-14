@@ -2,13 +2,49 @@ import moment from "moment";
 
 // The colors used in graphs
 export const COLORS = [
-  "#fe2e55",
-  "#33a4db",
-  "#fe9600",
-  "#fecf01",
-  "#1775fe",
-  "#c7c6cb",
+  "#fe2e55" /* Red */,
+  "#33a4db" /* light-blue */,
+  "#fe9600" /* Orange */,
+  "#fecf01" /* Yellow */,
+  "#1775fe" /* Blue */,
+  "#c7c6cb" /* Grey */,
 ];
+
+export const EXPENDITURE_COLORS = [
+  "#008450" /* Pastel Green */,
+  "#efb700" /* Yellow */,
+  "#b81d13" /* Red */,
+];
+
+// To clamp a number
+export const clampNumber = (num, a, b) =>
+  Math.max(Math.min(num, Math.max(a, b)), Math.min(a, b));
+
+// Convert color from hex to RGB
+export const hexToRgb = (hex) => {
+  // Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF")
+  const shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
+  hex = hex.replace(shorthandRegex, function (m, r, g, b) {
+    return r + r + g + g + b + b;
+  });
+
+  const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+  return result
+    ? {
+        r: parseInt(result[1], 16),
+        g: parseInt(result[2], 16),
+        b: parseInt(result[3], 16),
+      }
+    : null;
+};
+
+export const lerpRGB = (colorA, colorB, t) => {
+  return {
+    r: parseFloat(colorA.r + (colorB.r - colorA.r) * t),
+    g: parseFloat(colorA.g + (colorB.g - colorA.g) * t),
+    b: parseFloat(colorA.b + (colorB.b - colorA.b) * t),
+  };
+};
 
 // Currency formatter
 export const currencyFormatter = new Intl.NumberFormat("en-IN", {
@@ -81,7 +117,7 @@ export const getExpenseToday = async (userID) => {
   // Get the items
   const data = await res.json();
   // Return the items
-  return data?.items;
+  return await data?.items;
 };
 
 export const getExpenseThisMonth = async (userID) => {
@@ -105,7 +141,7 @@ export const getExpenseThisMonth = async (userID) => {
   // Get the items
   const data = await res.json();
   // Return the items
-  return data?.items;
+  return await data?.items;
 };
 
 export const getCategorizedExpenses = async (expenses) => {

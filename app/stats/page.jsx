@@ -19,7 +19,40 @@ const CategorizedExpenditure = ({ categorizedExpenses, text }) => {
   return (
     <div className="card">
       <h3>{text}</h3>
-      <BarChart keyValuePairObj={categorizedExpenses} />
+      <BarChart
+        keyValuePairObj={categorizedExpenses}
+        noDataFoundMessage={"No Expenditure yet..."}
+      />
+    </div>
+  );
+};
+
+// The component that shows total monthly expenditure
+const TotalMonthlyExpenditure = ({ expenditure, monthlyLimit }) => {
+  // Format this to local currency
+  const formattedExp = currencyFormatter.format(expenditure);
+  // To get various attributes from the formatted string
+  const currencyFormat = {
+    symbol: formattedExp.charAt(0),
+    integer: formattedExp.slice(1, -3),
+    decimal: formattedExp.slice(-3),
+  };
+
+  return (
+    <div className="card">
+      <AnimCountUp
+        start={0}
+        end={expenditure}
+        duration={1.5}
+        decimals={2}
+        delay={0.25}
+        useEasing={true}
+        prefix={"You Spent: "}
+        currencySymbol={currencyFormat.symbol}
+        styleClass={styles.expenditureCount}
+        counterWrapperClass={styles.counterWrapper}
+        monthlyLimit={monthlyLimit}
+      />
     </div>
   );
 };
@@ -36,12 +69,7 @@ export default async function StatsPage() {
     expensesThisMonth,
     (expense) => expense.expenditure
   );
-  const formattedExp = currencyFormatter.format(totalExpenditureThisMonth);
-  const currencyFormat = {
-    symbol: formattedExp.charAt(0),
-    integer: formattedExp.slice(1, -3),
-    decimal: formattedExp.slice(-3),
-  };
+
   // Get the categorized expenses
   const categorizedExpenses = await getCategorizedExpenses(expensesThisMonth);
 
@@ -51,23 +79,16 @@ export default async function StatsPage() {
       {/* <GraphBox /> */}
       {/* The total expenditure of the user this month */}
       <div className={styles.content}>
-        <div className="card">
-          <AnimCountUp
-            start={0}
-            end={totalExpenditureThisMonth}
-            duration={1.5}
-            decimals={2}
-            delay={0.25}
-            useEasing={true}
-            prefix={"You Spent: "}
-            currencySymbol={currencyFormat.symbol}
-            styleClass={styles.expenditureCount}
-            counterWrapperClass={styles.counterWrapper}
-            monthlyLimit={record.monthly_limit}
-          />
-        </div>
+        {/* The total expenditure this month */}
+        <TotalMonthlyExpenditure
+          expenditure={totalExpenditureThisMonth}
+          monthlyLimit={record.monthly_limit}
+        />
         {/* The expenditure categorized */}
-        <CategorizedExpenditure categorizedExpenses={categorizedExpenses} text={"Monthly Breakdown"} />
+        <CategorizedExpenditure
+          categorizedExpenses={categorizedExpenses}
+          text={"Monthly Breakdown"}
+        />
       </div>
     </div>
   );
