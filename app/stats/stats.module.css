@@ -38,13 +38,24 @@
 
 @media (min-width: 767.98px) {
   .content {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: stretch;
+    justify-content: space-around;
     gap: 24px;
-    grid-auto-rows: minmax(fit-content, auto);
   }
   .content > * {
-    height: 100%;
+    height: inherit;
+    flex-grow: 1;
+  }
+  .countUp,
+  .monthlyPercentage {
+    width: calc(25% - 12px);
+  }
+  .categoryBarChart,
+  .expenseLineChart {
+    width: calc(75% - 12px);
   }
   .expenditureCount {
     flex-direction: column;

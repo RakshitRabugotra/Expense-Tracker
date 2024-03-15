@@ -14,11 +14,17 @@ import {
 
 // The counting prop
 function Count(countUpProps) {
+
+  let { prefix, suffix } = countUpProps;
+
+  if(!prefix) prefix = "";
+  if(!suffix) suffix = "";
+
   return (
     <CountUp {...countUpProps}>
       {({ value, reset }) => (
         <>
-          <span>{value}</span>
+          <span>{prefix + value + suffix}</span>
         </>
       )}
     </CountUp>
@@ -29,7 +35,8 @@ export default function ExpenditureCountUp({
   title,
   expenditure,
   duration,
-  currencySymbol,
+  prefix,
+  suffix,
   monthlyLimit,
   counterWrapperClass,
   styleClass,
@@ -73,7 +80,8 @@ export default function ExpenditureCountUp({
         maximumFractionDigits: 2,
       },
     },
-    prefix: currencySymbol,
+    prefix,
+    suffix,
     decimalPlaces: 2,
     thousandsSeparator: ",",
     decimalSeparator: ".",

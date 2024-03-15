@@ -4,11 +4,10 @@
     flex-direction: column;
     gap: 16px;
     width: 100%;
-    min-height: 25vh;
 }
 
 .graphContainer > canvas {
-    height: 100%;
+    max-height: 280px;
 }
 
 .buttonContainer {
@@ -32,4 +31,5 @@
 .active {
     color: var(--light-green) !important;
     background-color: var(--dark-green) !important;
+    filter: drop-shadow(0px 0px 2px var(--dark-green)) !important;
 }

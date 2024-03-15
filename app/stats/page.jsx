@@ -18,22 +18,13 @@ import {
 // The component that shows categorized expenses in form of horizontal bar-charts
 const CategorizedExpenditure = ({ categorizedExpenses, text }) => {
   return (
-    <div className="card">
+    <>
       <h3>{text}</h3>
       <BarChart
         keyValuePairObj={categorizedExpenses}
         noDataFoundMessage={"No Expenditure yet..."}
       />
-    </div>
-  );
-};
-
-// The component that shows the income and expense over a period of time
-const ExpenseLineChart = ({ user }) => {
-  return (
-    <div className="card">
-      <FilledExpenseLineChart user={user} />
-    </div>
+    </>
   );
 };
 
@@ -68,12 +59,12 @@ export default async function StatsPage() {
       {/* The total expenditure of the user this month */}
       <div className={styles.content}>
         {/* The total expenditure this month */}
-        <div className="card">
+        <div className={`card ${styles.countUp}`}>
           <ExpenditureCountUp
             title={"You Spent: "}
             duration={1.25}
             expenditure={totalExpenditureThisMonth}
-            currencySymbol={currencyFormat.symbol}
+            prefix={currencyFormat.symbol}
             styleClass={styles.expenditureCount}
             counterWrapperClass={styles.counterWrapper}
             monthlyLimit={record.monthly_limit}
@@ -81,12 +72,30 @@ export default async function StatsPage() {
         </div>
 
         {/* The expenditure categorized */}
-        <CategorizedExpenditure
-          categorizedExpenses={categorizedExpenses}
-          text={"Monthly Breakdown"}
-        />
+        <div className={`card ${styles.categoryBarChart}`}>
+          <CategorizedExpenditure
+            categorizedExpenses={categorizedExpenses}
+            text={"Monthly Breakdown"}
+          />
+        </div>
         {/* The expense line chart */}
-        <ExpenseLineChart user={record} />
+        <div className={`card ${styles.expenseLineChart}`}>
+          <FilledExpenseLineChart user={record} />
+        </div>
+
+        {/* The percentage spent of monthly limit */}
+        <div className={`card ${styles.monthlyPercentage}`}>
+          <ExpenditureCountUp
+            title={"Used this much:"}
+            duration={3}
+            expenditure={100*(totalExpenditureThisMonth/record.monthly_limit)}
+            styleClass={styles.expenditureCount}
+            counterWrapperClass={styles.counterWrapper}
+            suffix={"%"}
+            monthlyLimit={100}
+          />
+        </div>
+
       </div>
     </div>
   );
