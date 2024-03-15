@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -34,12 +34,12 @@ const options = {
 };
 
 // The allowed time periods
-const TIME_PERIODS = [1, 3, 6];
+const MONTH_TIME_PERIODS = [1, 3, 6];
 
 export default function FilledLineChart({ user }) {
   // The time period (in months)
   const [numOfMonths, setNumOfMonths] = useState(
-    TIME_PERIODS[parseInt(TIME_PERIODS.length / 2)]
+    MONTH_TIME_PERIODS[parseInt(MONTH_TIME_PERIODS.length / 2)]
   );
 
   // Get the expenses for previous 'n' months
@@ -52,7 +52,7 @@ export default function FilledLineChart({ user }) {
     setDummyObj((prev) => new Object());
     // 'getPreviousMonths' returns the name of the previous 'n' months
     const previousMonths = getPreviousMonths(
-      TIME_PERIODS[TIME_PERIODS.length - 1]
+      MONTH_TIME_PERIODS[MONTH_TIME_PERIODS.length - 1]
     );
     // Iterate over and get each expense
     previousMonths.forEach((monthName, index) => {
@@ -141,7 +141,7 @@ export default function FilledLineChart({ user }) {
       <Line options={options} data={data} />
 
       <div className={styles.buttonContainer}>
-        {TIME_PERIODS.map((n, index) => {
+        {MONTH_TIME_PERIODS.map((n, index) => {
           return (
             <div
               key={index}
