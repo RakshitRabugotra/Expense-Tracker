@@ -60,7 +60,7 @@ export default function AnimCountUp({
 
   useEffect(() => {
     setCountEnd(end);
-  }, [end]);
+  }, [countEnd, end]);
 
   return (
     <CountUp
