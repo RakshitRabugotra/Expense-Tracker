@@ -1,7 +1,7 @@
 import GraphBox from "../(components)/GraphBox";
 import Heading from "../(components)/Heading";
 import BarChart from "../(components)/(charts)/BarChart";
-import AnimCountUp from "../(components)/AnimCountUp";
+import ExpenditureCountUp from "../(components)/ExpenditureCountUp";
 import FilledExpenseLineChart from "../(components)/(charts)/FilledExpenseLineChart";
 import { cookies } from "next/headers";
 import styles from "./stats.module.css";
@@ -69,14 +69,10 @@ export default async function StatsPage() {
       <div className={styles.content}>
         {/* The total expenditure this month */}
         <div className="card">
-          <AnimCountUp
-            start={0}
-            end={totalExpenditureThisMonth}
-            duration={1.5}
-            decimals={2}
-            delay={0.25}
-            useEasing={true}
-            prefix={"You Spent: "}
+          <ExpenditureCountUp
+            title={"You Spent: "}
+            duration={1.25}
+            expenditure={totalExpenditureThisMonth}
             currencySymbol={currencyFormat.symbol}
             styleClass={styles.expenditureCount}
             counterWrapperClass={styles.counterWrapper}
