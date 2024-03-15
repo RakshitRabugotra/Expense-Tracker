@@ -1,0 +1,35 @@
+
+.graphContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+    min-height: 25vh;
+}
+
+.graphContainer > canvas {
+    height: 100%;
+}
+
+.buttonContainer {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    justify-content: center;
+    align-items: center;
+}
+
+.buttonContainer > div {
+    padding: 8px;
+    font-size: 12px;
+    border-radius: 12px;
+    color: var(--inactive);
+    background-color: var(--pale-green);
+    user-select: none;
+    transition: all 300ms ease;
+}
+
+.active {
+    color: var(--light-green) !important;
+    background-color: var(--dark-green) !important;
+}

@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import styles from "./bar-chart.module.css";
-import { arraySum, COLORS } from "../(lib)/utils";
+import { arraySum, COLORS } from "../../(lib)/utils";
 import { useEffect, useState } from "react";
 
 export default function BarChart({ keyValuePairObj, noDataFoundMessage }) {

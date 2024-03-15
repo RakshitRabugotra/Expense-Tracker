@@ -10,7 +10,7 @@ import {
   getExpenseToday,
   getExpenseThisMonth,
   COLORS,
-} from "../(lib)/utils";
+} from "../../(lib)/utils";
 
 ChartJS.register(ArcElement, Tooltip);
 

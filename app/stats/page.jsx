@@ -1,7 +1,8 @@
 import GraphBox from "../(components)/GraphBox";
 import Heading from "../(components)/Heading";
-import BarChart from "../(components)/BarChart";
+import BarChart from "../(components)/(charts)/BarChart";
 import AnimCountUp from "../(components)/AnimCountUp";
+import FilledExpenseLineChart from "../(components)/(charts)/FilledExpenseLineChart";
 import { cookies } from "next/headers";
 import styles from "./stats.module.css";
 
@@ -11,7 +12,7 @@ import {
   getExpenseThisMonth,
   getCategorizedExpenses,
   arraySum,
-  currencyFormatter,
+  currencyFormatter
 } from "../(lib)/utils";
 
 // The component that shows categorized expenses in form of horizontal bar-charts
@@ -57,6 +58,13 @@ const TotalMonthlyExpenditure = ({ expenditure, monthlyLimit }) => {
   );
 };
 
+// The component that shows the income and expense over a period of time
+const ExpenseLineChart = ({ user }) => {
+  return <div className="card">
+    <FilledExpenseLineChart user={user}/>
+  </div>;
+};
+
 export default async function StatsPage() {
   // Get the current logged-in user
   const session = cookies().get("session")?.value;
@@ -69,7 +77,6 @@ export default async function StatsPage() {
     expensesThisMonth,
     (expense) => expense.expenditure
   );
-
   // Get the categorized expenses
   const categorizedExpenses = await getCategorizedExpenses(expensesThisMonth);
 
@@ -84,11 +91,14 @@ export default async function StatsPage() {
           expenditure={totalExpenditureThisMonth}
           monthlyLimit={record.monthly_limit}
         />
+
         {/* The expenditure categorized */}
         <CategorizedExpenditure
           categorizedExpenses={categorizedExpenses}
           text={"Monthly Breakdown"}
         />
+        {/* The expense line chart */}
+        <ExpenseLineChart user={record}/>
       </div>
     </div>
   );

@@ -16,6 +16,9 @@ export const EXPENDITURE_COLORS = [
   "#b81d13" /* Red */,
 ];
 
+// The order in which we need to sort
+export const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
 // To clamp a number
 export const clampNumber = (num, a, b) =>
   Math.max(Math.min(num, Math.max(a, b)), Math.min(a, b));
@@ -52,18 +55,10 @@ export const currencyFormatter = new Intl.NumberFormat("en-IN", {
   currency: "INR",
 });
 
-// Number of days in this month
-export const daysInCurrentMonth = () =>
-  new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0).getDate();
-
-// Number of days left in this month
-export const daysLeftInThisMonth = () =>
-  daysInCurrentMonth() - new Date().getDate();
-
 // Function to group certain elements in an listect by a key
 export function groupBy(list, keyGetter) {
   const map = new Map();
-  list.forEach((item) => {
+  list?.forEach((item) => {
     const key = keyGetter(item);
     const collection = map.get(key);
     if (!collection) {
@@ -82,20 +77,74 @@ export function arraySum(list, keyGetter) {
   }
 
   // Base case: length is 0
-  if (list.length === 0) {
+  if (list?.length === 0) {
     return 0;
   }
   // Base case: length is 1
-  if (list.length === 1) {
+  if (list?.length === 1) {
     return keyGetter(list[0]);
   }
   // Else do this the old way
   let total = 0;
-  list.forEach((value) => {
+  list?.forEach((value) => {
     total += keyGetter(value);
   });
   return total;
 }
+
+// Number of days in this month
+export const daysInCurrentMonth = () =>
+  new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0).getDate();
+
+// Number of days left in this month
+export const daysLeftInThisMonth = () =>
+  daysInCurrentMonth() - new Date().getDate();
+
+// Utility function to convert month name to month number
+export const getMonthNumberFromName = (monthName) => {
+  const year = new Date().getFullYear();
+  return new Date(`${monthName} 1, ${year}`).toLocaleString("default", {
+    month: "2-digit",
+  });
+};
+
+// Returns 'n' number of previous months from today
+export const getPreviousMonths = (n, isNumeric=false) => {
+  const today = new Date();
+  const todayMonth = today.getMonth();
+
+  const previousMonths = [];
+  for (let i = n - 1; i >= 0; i--) {
+    const newMonth = todayMonth - i >= 0 ? todayMonth - i : todayMonth - i + 12;
+    today.setMonth(newMonth);
+    const month = today.toLocaleString("default", { month: isNumeric ? "numeric" : "short" });
+    previousMonths.push(month);
+  }
+
+  return previousMonths;
+};
+
+// Get the total expenses for a particular month
+export const getMonthExpenseFor = async(userID, year, monthNumber) => {
+  // Figure out where the month starts and end
+  let monthStart = monthNumber;
+  let monthEnd = parseInt(monthNumber) + 1;
+  if(monthEnd < 10) monthEnd = '0' + monthEnd;
+  // Set the path and filter for the month
+  const path = "/api/collections/expenses/records?page=1&perPage=100";
+  const filter = `&filter=(user_id='${userID}' %26%26 expense_date>'${year}-${monthStart}-01' %26%26 expense_date<'${year}-${monthEnd}-01')`;
+  const sort = "&sort=-expense_date,id";
+  // Send the fetch request
+  const res = await fetch(process.env.SERVER + path + filter + sort, {
+    cache: "no-store"
+  });
+  if(res.status === 404) {
+    return {items: []}
+  }
+  const data = await res.json();
+  return data?.items;
+}
+
 
 export const getExpenseToday = async (userID) => {
   const today = new Date();
@@ -156,3 +205,23 @@ export const getCategorizedExpenses = async (expenses) => {
   });
   return categorizedExpenditure;
 };
+
+
+// Sorting according to the current, gives a list in chronological order of months
+export const getMonthsInOrder = (monthObj, iCurrMonth) => {
+  const result = [];
+  // Convert the object to an array
+  Object.keys(monthObj).forEach((key) => {
+    result.push([key, monthObj[key]]);
+  })
+  // Sort the array in order of the months
+  result.sort((a, b) => {
+    const iMonthA = MONTHS.indexOf(a[0]);
+    const iMonthB = MONTHS.indexOf(b[0]);
+
+    if (iMonthA === iMonthB) return 0;
+    return iMonthA > iMonthB ? 1 : -1;
+  })
+
+  return result.slice(iCurrMonth).concat(result.slice(0, iCurrMonth));
+}

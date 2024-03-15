@@ -1,6 +1,6 @@
 import styles from "./page.module.css";
 import Heading from "./(components)/Heading";
-import ExpensePie from "./(components)/ExpensePie";
+import ExpensePie from "./(components)/(charts)/ExpensePie";
 import { arraySum, getCategorizedExpenses, getExpenseThisMonth, getExpenseToday} from "./(lib)/utils";
 import { cookies } from "next/headers";
 import { getUser } from "./(lib)/auth";
